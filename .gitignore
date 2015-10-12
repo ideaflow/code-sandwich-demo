@@ -1,1 +1,5 @@
 .idea
+.gradle
+build
+code-sandwich.iws
+code-sandwich.ipr
