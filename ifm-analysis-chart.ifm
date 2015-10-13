@@ -209,3 +209,8 @@ editorActivity (created: '2015-10-12T19:29:39', name: '''IdeaFlowModelBuilder.gr
 editorActivity (created: '2015-10-12T19:30:20', name: '''ObjectMapperSpec.groovy''', duration: 62, modified: 'true', )
 editorActivity (created: '2015-10-12T19:31:22', name: '''IdeaFlowReaderWriterSpec.groovy''', duration: 59, modified: 'false', )
 editorActivity (created: '2015-10-12T19:32:21', name: '''IdeaFlowReader.groovy''', duration: 156, modified: 'true', )
+editorActivity (created: '2015-10-12T19:34:57', name: '''[[deactivated]]''', duration: 66, modified: 'false', )
+editorActivity (created: '2015-10-12T19:36:03', name: '''IdeaFlowReader.groovy''', duration: 4, modified: 'false', )
+editorActivity (created: '2015-10-12T19:36:07', name: '''IdeaFlowReaderWriterSpec.groovy''', duration: 12, modified: 'false', )
+editorActivity (created: '2015-10-12T19:36:20', name: '''[[deactivated]]''', duration: 865, modified: 'false', )
+editorActivity (created: '2015-10-12T19:50:46', name: '''IdeaFlowReaderWriterSpec.groovy''', duration: 80, modified: 'true', )
