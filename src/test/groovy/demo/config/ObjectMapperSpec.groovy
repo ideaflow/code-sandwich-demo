@@ -16,7 +16,6 @@
 package demo.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import demo.ComponentTest
 import java.time.LocalDate
 import spock.lang.Specification
 

@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<script src="../demo/js/example.js"></script>
+
+<body>
+<h1>Result</h1>
+
+<div th:object = "${demoResult}">
+    <p th:text="'Value: ' + *{resultValue}" />
+</div>
+
+<a href="/demo/">Submit again</a>
+</body>
+</html>
