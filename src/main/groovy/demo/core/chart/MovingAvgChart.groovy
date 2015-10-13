@@ -35,6 +35,10 @@ class MovingAvgChart implements IdeaFlowChart {
 
         chart.ticks = ['Troubleshooting', 'Learning', 'Rework']
 
+        chart.conflictSeriesLabel = "Average Troubleshooting Time (minutes)"
+        chart.learningSeriesLabel = "Average Learning Time (minutes)"
+        chart.reworkSeriesLabel = "Average Rework Time (minutes)"
+
         chart.conflictSeries = buckets[0].movingAverageSeries
         chart.learningSeries = buckets[1].movingAverageSeries
         chart.reworkSeries = buckets[2].movingAverageSeries

@@ -1,20 +1,20 @@
 package demo.core.chart
 
 import demo.api.FrictionChart
-import demo.core.chart.bucket.RangeBucket
+import demo.core.chart.bucket.AggregatorBucket
 import demo.core.model.BandType
 import demo.core.timeline.TimeBand
 
 class FrequencyChart implements IdeaFlowChart {
 
-    List<RangeBucket> buckets
+    List<AggregatorBucket> buckets
 
     void configure() {
-        buckets = [new RangeBucket(from: 0, to: 5),
-                   new RangeBucket(from: 5, to: 10),
-                   new RangeBucket(from: 10, to: 30),
-                   new RangeBucket(from: 30, to: 200),
-                   new RangeBucket(from: 200, to: Integer.MAX_VALUE)]
+        buckets = [new AggregatorBucket("[0-5m]", { key, value -> value > 0 && value <= 5}),
+                   new AggregatorBucket("[5-10m]", { key, value -> value > 5 && value <= 10}),
+                   new AggregatorBucket("[10-30m]", { key, value -> value > 10 && value <= 30}),
+                   new AggregatorBucket("[30-200m]", { key, value -> value > 30 && value <= 200}),
+                   new AggregatorBucket("[200m+]", { key, value -> value >= 200})]
     }
 
     void fillChart(List<TimeBand> bands) {
@@ -31,7 +31,11 @@ class FrequencyChart implements IdeaFlowChart {
 
     FrictionChart generate() {
         FrictionChart chart = new FrictionChart()
-        chart.title = "Friction Frequency (Grouped by Minutes)"
+        chart.title = "Friction Frequency By Friction Type"
+
+        chart.conflictSeriesLabel = "Conflict Frequency"
+        chart.learningSeriesLabel = "Learning Frequency"
+        chart.reworkSeriesLabel = "Rework Frequency"
 
         buckets.each { bucket ->
             chart.conflictSeries.add( bucket.getGroupFrequency(BandType.conflict.name()))
@@ -40,7 +44,7 @@ class FrequencyChart implements IdeaFlowChart {
         }
 
         chart.ticks = buckets.collect { bucket ->
-            bucket.bucketDescription
+            bucket.description
         }
 
         return chart

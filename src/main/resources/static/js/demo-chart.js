@@ -32,23 +32,23 @@ var rework_color = "#ffcb01";
 
 
 function drawAllCharts(charts) {
-    alert("Rendering ZZ div charts!");
-    drawBarChart('chartdiv1', charts[0]);
-    drawLineChart('chartdiv2', "Avg Troubleshooting Time (Minutes)", charts[1].conflictSeries, conflict_color);
-    drawLineChart('chartdiv3', "Avg Learning Time (Minutes)", charts[1].learningSeries, learning_color);
-    drawLineChart('chartdiv4', "Avg Rework Time (Minutes)", charts[1].reworkSeries, rework_color);
+    drawBarChart('frequencyConflict', charts[0].conflictSeriesLabel, charts[0].ticks, charts[0].conflictSeries, conflict_color);
+    drawBarChart('frequencyLearning', charts[0].learningSeriesLabel, charts[0].ticks, charts[0].learningSeries, learning_color);
+    drawBarChart('frequencyRework', charts[0].reworkSeriesLabel, charts[0].ticks, charts[0].reworkSeries, rework_color);
+
+    drawLineChart('durationConflict', charts[1].conflictSeriesLabel, charts[1].conflictSeries, conflict_color);
+    drawLineChart('durationLearning', charts[1].learningSeriesLabel, charts[1].learningSeries, learning_color);
+    drawLineChart('durationRework', charts[1].reworkSeriesLabel, charts[1].reworkSeries, rework_color);
 }
 
 
-function drawBarChart(chartDiv, chart) {
+function drawBarChart(chartDiv, title, ticks, series, color) {
     $.jqplot.config.enablePlugins = true;
-    var data = [chart.conflictSeries, chart.learningSeries, chart.reworkSeries];
-    var ticks = chart.ticks;
 
-    var plot1 = $.jqplot(chartDiv, data, {
-        title: chart.title,
-        animate: true,
-        seriesColors:[conflict_color, learning_color, rework_color],
+    var plot1 = $.jqplot(chartDiv, [series], {
+        title: title,
+        animate:true,
+        seriesColors:[color],
         seriesDefaults:{
             renderer:$.jqplot.BarRenderer,
             pointLabels: { show: false }
@@ -62,14 +62,12 @@ function drawBarChart(chartDiv, chart) {
         highlighter: { show: false }
     });
 
-    //$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
 }
 
 function drawLineChart(chartDiv, title, data, color) {
-    alert('drawing');
-
     var plot1 = $.jqplot (chartDiv, [data], {
         title: title,
+        animate: true,
         seriesDefaults: {
                     rendererOptions: {
                         smooth: true
@@ -85,18 +83,12 @@ function drawLineChart(chartDiv, title, data, color) {
                     showGridline: false,
                     showMark: false
                 }
+            },
+            yaxis: {
+                min: 0
             }
         },
         series:[{showMarker:false}],
         seriesColors:[color]
     });
-    //var plot1 = $.jqplot(chartDiv, data, {
-    //    seriesDefaults: {
-    //        rendererOptions: {
-    //            smooth: true
-    //        }
-    //    },
-    //    seriesColors:[color]
-    //});
-    //alert('done!');
 }

@@ -16,6 +16,11 @@ public class FrictionChart {
 
         String title;
         List<String> ticks;
+
+        String conflictSeriesLabel;
+        String learningSeriesLabel;
+        String reworkSeriesLabel;
+
         List<Double> conflictSeries = new ArrayList<>();
         List<Double> learningSeries = new ArrayList<>();
         List<Double> reworkSeries = new ArrayList<>();
