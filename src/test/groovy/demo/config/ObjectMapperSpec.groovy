@@ -20,7 +20,6 @@ import demo.ComponentTest
 import java.time.LocalDate
 import spock.lang.Specification
 
-@ComponentTest
 class ObjectMapperSpec extends Specification {
 
 	private ObjectMapper mapper = new ObjectMapperContextResolver().getContext(Object)
