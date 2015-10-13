@@ -16,8 +16,8 @@
 function renderCharts() {
     $.ajax({
         type: 'GET',
-        url: '/chart/1',
-        success: drawBarChart,
+        url: '/chart/all', //change this to a filter parameter
+        success: drawAllCharts,
         error: handleError
     });
 }
@@ -26,17 +26,26 @@ function handleError(e) {
     alert(e.status + " : " +e.statusText)
 }
 
-function drawBarChart(chart) {
+var conflict_color = "#ff0078";
+var learning_color = "#520ce8";
+var rework_color = "#ffcb01";
+
+
+function drawAllCharts(charts) {
+    alert("Rendering ZZ div charts!");
+    drawBarChart('chartdiv1', charts[0]);
+    drawLineChart('chartdiv2', "Avg Troubleshooting Time (Minutes)", charts[1].conflictSeries, conflict_color);
+    drawLineChart('chartdiv3', "Avg Learning Time (Minutes)", charts[1].learningSeries, learning_color);
+    drawLineChart('chartdiv4', "Avg Rework Time (Minutes)", charts[1].reworkSeries, rework_color);
+}
+
+
+function drawBarChart(chartDiv, chart) {
     $.jqplot.config.enablePlugins = true;
     var data = [chart.conflictSeries, chart.learningSeries, chart.reworkSeries];
     var ticks = chart.ticks;
 
-    var conflict_color = "#ff0078";
-    var learning_color = "#520ce8";
-    var rework_color = "#ffcb01";
-
-    alert("colors!");
-    var plot1 = $.jqplot('chartdiv', data, {
+    var plot1 = $.jqplot(chartDiv, data, {
         title: chart.title,
         animate: true,
         seriesColors:[conflict_color, learning_color, rework_color],
@@ -56,6 +65,38 @@ function drawBarChart(chart) {
     //$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
 }
 
-function drawStackedBarChart(chart) {
+function drawLineChart(chartDiv, title, data, color) {
+    alert('drawing');
 
+    var plot1 = $.jqplot (chartDiv, [data], {
+        title: title,
+        seriesDefaults: {
+                    rendererOptions: {
+                        smooth: true
+                    },
+                    pointLabels: { show:false }
+        },
+        axes: {
+            xaxis: {
+                min: 0,
+                max:data.length,
+                tickOptions: {
+                    showLabel: false,
+                    showGridline: false,
+                    showMark: false
+                }
+            }
+        },
+        series:[{showMarker:false}],
+        seriesColors:[color]
+    });
+    //var plot1 = $.jqplot(chartDiv, data, {
+    //    seriesDefaults: {
+    //        rendererOptions: {
+    //            smooth: true
+    //        }
+    //    },
+    //    seriesColors:[color]
+    //});
+    //alert('done!');
 }

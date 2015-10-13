@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package demo.core.chart
+package demo.core.chart.bucket
 
 import groovy.util.logging.Slf4j
 
 @Slf4j
-class DataBucket {
+class RangeBucket extends DataBucket {
 
 
     int from
@@ -27,12 +27,14 @@ class DataBucket {
     Map<String, Integer> frequencyMap = [:]
     Map<String, Double> averageValueMap = [:]
 
-
-    boolean matches(Double value) {
+    @Override
+    boolean matches(String groupKey, Double value) {
         (value > from && value <= to)
     }
 
-    String addSample(String groupKey, Double value) {
+    @Override
+    void addDataSample(String groupKey, Double value) {
+
         initializeFrequencyToZero(groupKey)
         updateAverage(groupKey, value)
         updateSampleFrequency(groupKey)
@@ -70,6 +72,10 @@ class DataBucket {
         averageValueMap.get(groupKey)
     }
 
+    Double getGroupFrequency(String groupKey) {
+        frequencyMap.get(groupKey)
+    }
+
     String getBucketDescription() {
         if (to == Integer.MAX_VALUE) {
             "[$from +]"
@@ -78,8 +84,9 @@ class DataBucket {
         }
     }
 
-    Integer getTotalSamples() {
-        Integer total = 0
+    @Override
+    int getTotalSamples() {
+        int total = 0
         frequencyMap.values().each { partialTotal ->
             total += partialTotal
         }

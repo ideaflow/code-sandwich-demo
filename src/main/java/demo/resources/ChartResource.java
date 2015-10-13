@@ -17,7 +17,9 @@ package demo.resources;
 
 import demo.api.FrictionChart;
 import demo.api.ResourcePaths;
-import demo.core.chart.ChartDataLoader;
+import demo.core.chart.ChartGenerator;
+import demo.core.chart.FrequencyChart;
+import demo.core.chart.MovingAvgChart;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -25,6 +27,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Component
 @Path(ResourcePaths.CHART_PATH + "/{chartName}")
@@ -32,11 +35,12 @@ import javax.ws.rs.core.MediaType;
 public class ChartResource {
 
 	@GET
-	public FrictionChart getChart(@PathParam("chartName") String chartName) {
-        ChartDataLoader chartDataLoader = new ChartDataLoader();
-		chartDataLoader.loadAll();
+	public List<FrictionChart> getChart(@PathParam("chartName") String chartName) {
+		ChartGenerator generator = new ChartGenerator();
+		generator.configure(new FrequencyChart());
+		generator.configure(new MovingAvgChart());
 
-        return chartDataLoader.createFrictionFrequencyChart();
+        return generator.generateCharts();
 	}
 
 }

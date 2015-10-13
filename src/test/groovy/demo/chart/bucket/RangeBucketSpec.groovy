@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package demo.transform
+package demo.chart.bucket
 
-import demo.core.chart.DataBucket
+import demo.core.chart.bucket.RangeBucket
 import spock.lang.Specification
 
 
-class DataBucketSpec extends Specification {
+class RangeBucketSpec extends Specification {
 
-    DataBucket bucket = new DataBucket()
+    RangeBucket bucket = new RangeBucket()
 
     def "sample size should match the number of samples added"() {
         when:
