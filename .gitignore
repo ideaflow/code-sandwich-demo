@@ -3,3 +3,6 @@
 build
 code-sandwich.iws
 code-sandwich.ipr
+*.iml
+*.ipr
+*.iws
