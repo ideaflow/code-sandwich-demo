@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 New Iron Group, Inc.
  *
  * Licensed under the GNU GENERAL PUBLIC LICENSE, Version 3 (the "License");
@@ -13,19 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package demo.api;
+function renderCharts() {
+    $.ajax({
+        type: 'GET',
+        url: '/chart/1',
+        success: drawBarChart,
+        error: handleError
+    });
+}
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+function handleError(e) {
+    alert(e.status + " : " +e.statusText)
+}
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class DemoResult {
+function drawBarChart(chart) {
+    alert(chart.title)
+    $.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
+}
 
-    private String resultValue;
+function drawStackedBarChart(chart) {
 
 }

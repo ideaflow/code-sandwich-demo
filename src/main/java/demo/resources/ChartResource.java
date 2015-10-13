@@ -13,19 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package demo.api;
+package demo.resources;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import demo.api.Chart;
+import demo.api.ResourcePaths;
+import org.springframework.stereotype.Component;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class DemoResult {
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-    private String resultValue;
+@Component
+@Path(ResourcePaths.CHART_PATH + "/{chartName}")
+@Produces(MediaType.APPLICATION_JSON)
+public class ChartResource {
+
+	@GET
+	public Chart getChart(@PathParam("chartName") String chartName) {
+		System.out.println("Get Chart: " + chartName);
+        return new Chart("Happy Chart");
+	}
 
 }

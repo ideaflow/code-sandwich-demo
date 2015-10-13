@@ -24,8 +24,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DemoResult {
+public class Chart {
 
-    private String resultValue;
-
+    String title;
 }
