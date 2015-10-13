@@ -34,10 +34,10 @@ class IdeaFlowReader {
 		this.chunkSize = chunkSize
 	}
 
-	IdeaFlowModel readModel(File modelFile, String dslContent) {
+	IdeaFlowModel readModel(File modelFile) {
 		IdeaFlowModelLoader loader = new IdeaFlowModelLoader(modelFile)
 
-		for (List<String> dslContentChunk : dslContent.readLines().collate(chunkSize)) {
+		for (List<String> dslContentChunk : modelFile.text.readLines().collate(chunkSize)) {
 			String partialDslContent = dslContentChunk.join(LINE_SEPARATOR)
 			readPartialModel(loader, partialDslContent)
 		}

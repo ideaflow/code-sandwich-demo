@@ -3,6 +3,7 @@ package test.support
 import com.ideaflow.model.*
 import demo.core.model.BandEnd
 import demo.core.model.BandStart
+import demo.core.model.BandType
 import demo.core.model.Conflict
 import demo.core.model.EditorActivity
 import demo.core.model.IdeaFlowModel
@@ -25,6 +26,13 @@ class IdeaFlowModelBuilder {
 		ifm.created = new DateTime(fs.NOW)
 		ifm.file = new File(fs.FILE)
 		return this
+	}
+
+	IdeaFlowModelBuilder addBand(BandType bandType, int totalDuration) {
+		addBandStart(new BandStart(bandType, "comment", false))
+		addEditorActivity((int)totalDuration/2)
+		addEditorActivity((int)totalDuration/2)
+		addBandEnd(new BandEnd(bandType))
 	}
 
 	IdeaFlowModelBuilder addBandEnd(BandEnd bandEnd) {
