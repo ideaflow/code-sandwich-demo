@@ -15,8 +15,9 @@
  */
 package demo.resources;
 
-import demo.api.Chart;
+import demo.api.FrictionChart;
 import demo.api.ResourcePaths;
+import demo.core.chart.ChartDataLoader;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -31,9 +32,11 @@ import javax.ws.rs.core.MediaType;
 public class ChartResource {
 
 	@GET
-	public Chart getChart(@PathParam("chartName") String chartName) {
-		System.out.println("Get Chart: " + chartName);
-        return new Chart("Happy Chart");
+	public FrictionChart getChart(@PathParam("chartName") String chartName) {
+        ChartDataLoader chartDataLoader = new ChartDataLoader();
+		chartDataLoader.loadAll();
+
+        return chartDataLoader.createFrictionFrequencyChart();
 	}
 
 }

@@ -20,11 +20,11 @@ import demo.core.timeline.TimeBand
 import demo.core.timeline.Timeline
 import demo.core.timeline.TimelineFactory
 
-class ChartGenerator {
+class ChartDataGenerator {
 
     List<DataBucket> buckets
 
-    ChartGenerator() {
+    ChartDataGenerator() {
         configureBuckets()
     }
 
@@ -47,12 +47,12 @@ class ChartGenerator {
 
     void loadTimeBands(List<TimeBand> bands) {
         bands.each { TimeBand band ->
-            fillDataBuckets(band.bandType.name(), band.duration.duration)
+            fillDataBuckets(band.bandType.name(), ((double)band.duration.duration)/60)
         }
     }
 
 
-    void fillDataBuckets(String groupKey, int value) {
+    void fillDataBuckets(String groupKey, Double value) {
         buckets.each { bucket ->
             if (bucket.matches(value)) {
                 bucket.addSample(groupKey, value)
@@ -60,19 +60,21 @@ class ChartGenerator {
         }
     }
 
-    BarChart generateFrequencyChart() {
-        return generateStackedBarChart("frequencyMap")
+    ChartData generateFrequencyChartData() {
+        ChartData chart = generateMultiBarChart("frequencyMap")
+        return chart
     }
 
-    BarChart generateAveragesChart() {
-        return generateStackedBarChart("averageValueMap")
+    ChartData generateAveragesChartData() {
+        ChartData chart = generateMultiBarChart("averageValueMap")
+        return chart
     }
 
-    BarChart generateStackedBarChart(String accessor) {
-        BarChart chart = new BarChart()
+    ChartData generateMultiBarChart(String accessor) {
+        ChartData chart = new ChartData()
 
         buckets.each { DataBucket bucket ->
-            chart.addStackedBar(bucket.bucketDescription, bucket."${accessor}")
+            chart.addBarSet(bucket.bucketDescription, bucket."${accessor}")
         }
         return chart
     }

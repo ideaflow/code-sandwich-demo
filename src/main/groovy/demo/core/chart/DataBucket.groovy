@@ -28,11 +28,11 @@ class DataBucket {
     Map<String, Double> averageValueMap = [:]
 
 
-    boolean matches(int value) {
+    boolean matches(Double value) {
         (value > from && value <= to)
     }
 
-    String addSample(String groupKey, int value) {
+    String addSample(String groupKey, Double value) {
         initializeFrequencyToZero(groupKey)
         updateAverage(groupKey, value)
         updateSampleFrequency(groupKey)
@@ -51,7 +51,7 @@ class DataBucket {
     }
 
 
-    void updateAverage(String groupKey, int value) {
+    void updateAverage(String groupKey, Double value) {
         Double groupAverage = averageValueMap.get(groupKey)
 
         if (groupAverage) {
@@ -61,7 +61,7 @@ class DataBucket {
         }
     }
 
-    private Double calculateAvg(String groupKey, Double groupAverage, int value) {
+    private Double calculateAvg(String groupKey, Double groupAverage, Double value) {
         Integer groupFrequency = frequencyMap.get(groupKey);
         (groupFrequency * groupAverage + value)/(groupFrequency + 1)
     }

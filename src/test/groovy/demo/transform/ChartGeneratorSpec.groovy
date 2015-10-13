@@ -15,8 +15,8 @@
  */
 package demo.transform
 
-import demo.core.chart.BarChart
-import demo.core.chart.ChartGenerator
+import demo.core.chart.ChartData
+import demo.core.chart.ChartDataGenerator
 import demo.core.model.BandType
 import demo.core.model.IdeaFlowModel
 import spock.lang.Specification
@@ -24,7 +24,7 @@ import test.support.IdeaFlowModelBuilder
 
 class ChartGeneratorSpec extends Specification {
 
-    private ChartGenerator chartGenerator = new ChartGenerator()
+    private ChartDataGenerator chartGenerator = new ChartDataGenerator()
     private IdeaFlowModelBuilder modelBuilder = new IdeaFlowModelBuilder()
 
 
@@ -37,7 +37,7 @@ class ChartGeneratorSpec extends Specification {
         when:
 
         chartGenerator.fillChart(model)
-        BarChart chart = chartGenerator.generateFrequencyChart()
+        ChartData chart = chartGenerator.generateFrequencyChartData()
 
         then:
 
@@ -56,7 +56,7 @@ class ChartGeneratorSpec extends Specification {
         when:
 
         chartGenerator.fillChart(model)
-        BarChart chart = chartGenerator.generateFrequencyChart()
+        ChartData chart = chartGenerator.generateFrequencyChartData()
 
         then:
 
@@ -77,7 +77,7 @@ class ChartGeneratorSpec extends Specification {
 
         chartGenerator.fillChart(model1)
         chartGenerator.fillChart(model2)
-        BarChart chart = chartGenerator.generateFrequencyChart()
+        ChartData chart = chartGenerator.generateFrequencyChartData()
 
         then:
 
@@ -97,7 +97,7 @@ class ChartGeneratorSpec extends Specification {
         when:
 
         chartGenerator.fillChart(model)
-        BarChart chart = chartGenerator.generateAveragesChart()
+        ChartData chart = chartGenerator.generateAveragesChartData()
 
         then:
 

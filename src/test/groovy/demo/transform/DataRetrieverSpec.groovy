@@ -15,13 +15,13 @@
  */
 package demo.transform
 
-import demo.core.chart.DataRetriever
+import demo.core.chart.ChartDataLoader
 import spock.lang.Specification
 
 
 class DataRetrieverSpec extends Specification {
 
-    private DataRetriever dataRetriever = new DataRetriever()
+    private ChartDataLoader dataRetriever = new ChartDataLoader()
 
     //TODO make this not load a static file from the home directory.
     def "should load ifm files in baseDir"() {

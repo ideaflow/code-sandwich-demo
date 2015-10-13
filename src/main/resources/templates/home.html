@@ -18,10 +18,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <script src="../demo/js/jquery.js"></script>
-    <script src="../demo/js/jquery.jqplot.js"></script>
+
+    <script type="text/javascript" src="../demo/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../demo/js/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="../demo/js/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="../demo/js/plugins/jqplot.barRenderer.min.js"></script>
+    <script type="text/javascript" src="../demo/js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script type="text/javascript" src="../demo/js/plugins/jqplot.pointLabels.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../demo/js/jquery.jqplot.css" />
+
     <script src="../demo/js/demo-chart.js"></script>
-<!--    <link rel="stylesheet" type="text/css" href="jquery.jqplot.css"/>-->
+
 
 </head>
 <body>
@@ -32,7 +39,7 @@
     renderCharts();
 </script>
 
-The Demo Form  !:
+The Demo xForm!:
 
 <form th:action="@{/demo/submitDemo}" th:object="${demoInput}" method="post">
     <p>Value: <input type="text" th:field="*{inputValue}"  /></p>

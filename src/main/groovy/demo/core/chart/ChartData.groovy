@@ -16,16 +16,15 @@
 package demo.core.chart
 
 
-class BarChart {
-    String title
-    List<StackedBar> bars = []
+class ChartData {
+    List<BarSet> barSets = []
 
-    void addStackedBar(String label, Map<String, Double> valueMap) {
-        StackedBar bar = new StackedBar(label)
-        valueMap.each { groupKey, value ->
-            bar.addSection(groupKey, value)
+    void addBarSet(String bucketLabel, Map<String, Double> categoryValueMap) {
+        BarSet barSet = new BarSet(label:bucketLabel)
+        categoryValueMap.each { groupKey, value ->
+            barSet.addBar(groupKey, value)
         }
-        bars.add(bar)
+        barSets.add(barSet)
     }
 
     static interface Bar {
@@ -33,24 +32,28 @@ class BarChart {
         Double getTotal()
     }
 
-    static class StackedBar implements Bar {
+    static class BarSet implements Bar {
         String label
-        Map<String, Double> barSections = [:]
+        Map<String, Double> bars = [:]
 
-        StackedBar(String label) {
-            this.label = label
-        }
-
-        void addSection(String barType, Double value) {
-            barSections.put(barType, value)
+        void addBar(String barType, Double value) {
+            bars.put(barType, value)
         }
 
         Double getTotal() {
             Double total = 0;
-            barSections.values().each { Double value ->
+            bars.values().each { Double value ->
                 total += value
             }
             return total
+        }
+
+        Double getBarValue(String barType) {
+            bars.get(barType) ?: 0 //default to 0
+        }
+
+        Integer getBarCount() {
+            bars.size()
         }
 
     }

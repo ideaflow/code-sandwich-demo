@@ -27,8 +27,33 @@ function handleError(e) {
 }
 
 function drawBarChart(chart) {
-    alert(chart.title)
-    $.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
+    $.jqplot.config.enablePlugins = true;
+    var data = [chart.conflictSeries, chart.learningSeries, chart.reworkSeries];
+    var ticks = chart.ticks;
+
+    var conflict_color = "#ff0078";
+    var learning_color = "#520ce8";
+    var rework_color = "#ffcb01";
+
+    alert("colors!");
+    var plot1 = $.jqplot('chartdiv', data, {
+        title: chart.title,
+        animate: true,
+        seriesColors:[conflict_color, learning_color, rework_color],
+        seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+            pointLabels: { show: false }
+        },
+        axes: {
+            xaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                ticks: ticks
+            }
+        },
+        highlighter: { show: false }
+    });
+
+    //$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
 }
 
 function drawStackedBarChart(chart) {
