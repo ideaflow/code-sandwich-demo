@@ -15,7 +15,7 @@
  */
 
 function renderCharts() {
-    renderFilteredCharts(null, "experimentpain");
+    renderDefaultCharts();
 }
 
 function renderDefaultCharts() {
@@ -28,12 +28,23 @@ function renderDefaultCharts() {
 }
 
 function renderFilteredCharts(author, hashtag) {
+
     var url = '/chart';
+    var title = "All Data (no filters)";
+
     if (author || hashtag) url += '?';
-    if (author) url += 'author=' +author;
+    if (author) {
+        url += 'author=' +author.toLowerCase();
+        title = "Author: "+author;
+    }
 
     if (author && hashtag) url += '&';
-    if (hashtag) url += 'hashtag=' +hashtag;
+    if (hashtag) {
+        url += 'hashtag=' +hashtag.toLowerCase();
+        title = "Filtered By: #"+hashtag;
+    }
+
+    $( "#dashboardTitle" ).html("<h1>"+title+"</h1>");
 
     $.ajax({
         type: 'GET',
@@ -64,6 +75,7 @@ function drawAllCharts(charts) {
 
 
 function drawBarChart(chartDiv, title, ticks, series, color) {
+    $( '#'+chartDiv).html('');
     $.jqplot.config.enablePlugins = true;
 
     var plot1 = $.jqplot(chartDiv, [series], {
@@ -86,6 +98,9 @@ function drawBarChart(chartDiv, title, ticks, series, color) {
 }
 
 function drawLineChart(chartDiv, title, data, color) {
+    var visible = resetDiv(chartDiv, data);
+    if (!visible) return;
+
     var plot1 = $.jqplot (chartDiv, [data], {
         title: title,
         animate: true,
@@ -112,4 +127,24 @@ function drawLineChart(chartDiv, title, data, color) {
         series:[{showMarker:false}],
         seriesColors:[color]
     });
+}
+
+function resetDiv(divName, data) {
+    var myDiv = $( '#'+divName );
+    myDiv.html('');
+
+    var ele = document.getElementById(divName);
+    var visible = data.length > 0;
+
+    if(!visible) {
+        ele.style.display = "none";
+    }
+    else {
+        ele.style.display = "block";
+    }
+
+
+
+    return visible;
+
 }
