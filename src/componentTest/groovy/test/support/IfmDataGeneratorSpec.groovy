@@ -1,7 +1,6 @@
 package test.support
 
 import demo.ComponentTest
-import demo.core.dsl.IfmDataGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
