@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
+var animate;
+var conflict_color = "#ff0078";
+var learning_color = "#520ce8";
+var rework_color = "#ffcb01";
+
 function renderCharts() {
     renderDefaultCharts();
 }
 
 function renderDefaultCharts() {
+    animate = true;
     $.ajax({
         type: 'GET',
         url: '/chart',
@@ -28,7 +34,7 @@ function renderDefaultCharts() {
 }
 
 function renderFilteredCharts(author, hashtag) {
-
+    animate = false;
     var url = '/chart';
     var title = "All Data (no filters)";
 
@@ -58,10 +64,6 @@ function handleError(e) {
     alert(e.status + " : " +e.statusText)
 }
 
-var conflict_color = "#ff0078";
-var learning_color = "#520ce8";
-var rework_color = "#ffcb01";
-
 
 function drawAllCharts(charts) {
     drawBarChart('frequencyConflict', charts[0].conflictSeriesLabel, charts[0].ticks, charts[0].conflictSeries, conflict_color);
@@ -80,7 +82,7 @@ function drawBarChart(chartDiv, title, ticks, series, color) {
 
     var plot1 = $.jqplot(chartDiv, [series], {
         title: title,
-        animate:true,
+        animate:animate,
         seriesColors:[color],
         seriesDefaults:{
             renderer:$.jqplot.BarRenderer,
@@ -103,7 +105,7 @@ function drawLineChart(chartDiv, title, data, color) {
 
     var plot1 = $.jqplot (chartDiv, [data], {
         title: title,
-        animate: true,
+        animate: animate,
         seriesDefaults: {
                     rendererOptions: {
                         smooth: true

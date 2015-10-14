@@ -52,7 +52,9 @@ class DataSetManager {
 
     private List<File> filterFilesByPath(filter) {
         ifmFileList.findAll { file ->
-            file.absolutePath.contains(filter)
+            String relativePath = file.absolutePath.substring(baseDir.absolutePath.length())
+            println relativePath
+            relativePath.contains(filter)
         }
     }
 
