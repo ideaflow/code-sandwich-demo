@@ -18,6 +18,7 @@ package demo.core.chart.builder
 import demo.api.FrictionChart
 import demo.core.chart.ChartDataSet
 import demo.core.chart.bucket.AggregatorBucket
+import demo.core.ifm.ifmsource.IfmTask
 import demo.core.model.BandType
 import demo.core.timeline.TimeBand
 
@@ -25,6 +26,10 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
 
     List<AggregatorBucket> buckets
     ChartDataSet chartDataSet
+
+    FrequencyChartBuilder(ChartDataSet chartDataSet) {
+        configure(chartDataSet)
+    }
 
     void configure(ChartDataSet chartDataSet) {
         this.chartDataSet = chartDataSet
@@ -35,8 +40,8 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
                    new AggregatorBucket("[200m+]", { key, value -> value >= 200})]
     }
 
-    void fillChart(File ifmFile) {
-        List<TimeBand> bands = chartDataSet.timeBandsMap.get(ifmFile);
+    void fillChart(IfmTask ifmTask) {
+        List<TimeBand> bands = chartDataSet.getTimeBands(ifmTask);
         bands.each { TimeBand band ->
             fillDataBuckets(band.bandType.name(), ((double)band.duration.duration)/60)
         }

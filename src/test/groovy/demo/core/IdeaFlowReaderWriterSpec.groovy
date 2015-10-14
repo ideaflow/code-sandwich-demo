@@ -16,8 +16,8 @@
 package demo.core
 
 
-import demo.core.dsl.IdeaFlowReader
-import demo.core.dsl.IdeaFlowWriter
+import demo.core.ifm.dsl.IdeaFlowReader
+import demo.core.ifm.dsl.IdeaFlowWriter
 import demo.core.model.BandEnd
 import demo.core.model.BandStart
 import demo.core.model.Conflict

@@ -54,15 +54,15 @@ public class ChartResource {
 		ChartDataSet filteredDataSet = dataSetManager.defaultDataSet();
 
 		if (author != null) {
-			filteredDataSet = dataSetManager.filterByIfmFolder(filteredDataSet, author);
+			filteredDataSet = dataSetManager.filterIfmTasksByAuthor(filteredDataSet, author);
 		}
 		if (hashtag != null) {
-			filteredDataSet = dataSetManager.filterBandsByHashtag(filteredDataSet, hashtag);
+			filteredDataSet = dataSetManager.filterTimeBandsByHashtag(filteredDataSet, hashtag);
 		}
 
 		List<IdeaFlowChartBuilder> builders = new ArrayList<>();
-		builders.add( chartGenerator.configure(filteredDataSet, new FrequencyChartBuilder()));
-		builders.add(chartGenerator.configure(filteredDataSet, new MovingAvgChartBuilder()));
+		builders.add(new FrequencyChartBuilder(filteredDataSet));
+		builders.add(new MovingAvgChartBuilder(filteredDataSet));
 
         return chartGenerator.generateCharts(builders);
 	}

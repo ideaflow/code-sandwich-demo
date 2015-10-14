@@ -17,23 +17,23 @@ package demo.core.chart
 
 import demo.api.FrictionChart
 import demo.core.chart.builder.IdeaFlowChartBuilder
+import demo.core.ifm.ifmsource.IfmTask
 import org.springframework.stereotype.Component
 
 @Component
 class ChartGenerator {
 
-    IdeaFlowChartBuilder configure(ChartDataSet chartDataSet, IdeaFlowChartBuilder chartBuilder) {
-        chartBuilder.configure(chartDataSet)
-        return chartBuilder
+    FrictionChart generateChart(IdeaFlowChartBuilder chartBuilder) {
+        generateCharts([chartBuilder]).get(0)
     }
 
     List<FrictionChart> generateCharts(List<IdeaFlowChartBuilder> chartBuilders) {
         chartBuilders.each { builder ->
-            List<File> sortedFiles = builder.getChartDataSet().ifmFileList.sort { file ->
-                file.lastModified()
+            List<IfmTask> sortedTasks = builder.getChartDataSet().ifmTaskList.sort { task ->
+                task.startDate
             }
-            sortedFiles.each { ifmFile ->
-                builder.fillChart(ifmFile)
+            sortedTasks.each { ifmTask ->
+                builder.fillChart(ifmTask)
             }
 
         }

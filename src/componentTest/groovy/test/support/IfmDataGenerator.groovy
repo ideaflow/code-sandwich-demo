@@ -17,10 +17,9 @@ package test.support
 
 import demo.core.chart.ChartDataSet
 import demo.core.chart.DataSetManager
-import demo.core.dsl.IdeaFlowReader
-import demo.core.dsl.IdeaFlowWriter
+import demo.core.ifm.dsl.IdeaFlowReader
+import demo.core.ifm.dsl.IdeaFlowWriter
 import demo.core.model.BandType
-import demo.core.model.Conflict
 import demo.core.model.IdeaFlowModel
 import demo.core.timeline.ConflictBand
 import demo.core.timeline.GenericBand
@@ -41,7 +40,7 @@ class IfmDataGenerator {
 
         ChartDataSet dataSet = dataSetManager.defaultDataSet()
 
-        dataSet.ifmFileList.each { ifmFile ->
+        dataSet.ifmTaskList.each { ifmFile ->
             log.info("Extrapolating data for: ${ifmFile.name}")
 
             IdeaFlowModel model = new IdeaFlowReader().readModel(ifmFile)

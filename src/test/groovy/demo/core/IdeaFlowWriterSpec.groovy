@@ -15,9 +15,7 @@
  */
 package demo.core
 
-import com.ideaflow.model.Conflict
-import com.ideaflow.model.ModelEntity
-import demo.core.dsl.IdeaFlowWriter
+import demo.core.ifm.dsl.IdeaFlowWriter
 import demo.core.model.Conflict
 import demo.core.model.ModelEntity
 import spock.lang.Specification

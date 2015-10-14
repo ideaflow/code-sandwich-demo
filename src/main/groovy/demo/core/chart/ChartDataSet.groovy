@@ -15,10 +15,19 @@
  */
 package demo.core.chart
 
+import demo.core.ifm.ifmsource.IfmTask
 import demo.core.timeline.TimeBand
 
-
 class ChartDataSet {
-    List<File> ifmFileList
-    Map<File, List<TimeBand>> timeBandsMap
+
+    List<IfmTask> ifmTaskList = []
+    Map<IfmTask, List<TimeBand>> timeBandsMap = [:]
+
+    int size() {
+        ifmTaskList.size()
+    }
+
+    List<TimeBand> getTimeBands(IfmTask task) {
+        timeBandsMap.get(task)
+    }
 }

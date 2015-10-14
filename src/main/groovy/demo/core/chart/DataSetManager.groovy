@@ -15,55 +15,57 @@
  */
 package demo.core.chart
 
-import demo.core.dsl.IdeaFlowReader
+import demo.core.ifm.ifmsource.IfmTask
+import demo.core.ifm.ifmsource.IfmSource
 import demo.core.model.IdeaFlowModel
 import demo.core.timeline.TimeBand
 import demo.core.timeline.Timeline
 import demo.core.timeline.TimelineFactory
-import groovy.io.FileType
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
 class DataSetManager {
 
-    private final List<File> ifmFileList = []
-    private final Map<File, List<TimeBand>> timeBandsMap = [:]
+    private final Map<IfmTask, List<TimeBand>> timeBandsMap = [:]
 
-    DataSetManager() {
-        initializeDataFromFiles()
+    private IfmSource ifmSource
+
+    @Autowired
+    DataSetManager(IfmSource ifmSource) {
+        this.ifmSource = ifmSource
+        initializeTaskData()
     }
 
     ChartDataSet defaultDataSet() {
-        ChartDataSet defaultDataSet = new ChartDataSet()
-        defaultDataSet.ifmFileList = ifmFileList
-        defaultDataSet.timeBandsMap = timeBandsMap
+        ChartDataSet defaultDataSet = new ChartDataSet (
+                ifmTaskList: ifmSource.allIfmTasks(),
+                timeBandsMap: timeBandsMap)
         return defaultDataSet
     }
 
-    ChartDataSet filterByIfmFolder(ChartDataSet dataSet, String filter) {
-        dataSet.ifmFileList = filterFilesByPath(filter)
+    ChartDataSet filterIfmTasksByAuthor(ChartDataSet dataSet, String author) {
+        dataSet.ifmTaskList = filterTasks(author)
         return dataSet
     }
 
-    ChartDataSet filterBandsByHashtag(ChartDataSet dataSet, String filter) {
-        dataSet.timeBandsMap = filterTimeBandsByHashtag(dataSet.ifmFileList, filter)
+    ChartDataSet filterTimeBandsByHashtag(ChartDataSet dataSet, String hashtag) {
+        dataSet.timeBandsMap = filterTimeBands(dataSet.ifmTaskList, hashtag)
         return dataSet
     }
 
-    private List<File> filterFilesByPath(filter) {
-        ifmFileList.findAll { file ->
-            String relativePath = file.absolutePath.substring(baseDir.absolutePath.length())
-            println relativePath
-            relativePath.contains(filter)
+    private List<IfmTask> filterTasks(String author) {
+        ifmSource.allIfmTasks().findAll { task ->
+            task.isByAuthor(author)
         }
     }
 
-    private Map<File, List<TimeBand>> filterTimeBandsByHashtag(List<File> ifmFiles, String filter) {
-        Map<File, List<TimeBand>> filteredTimeBandsMap = [:]
+    private Map<IfmTask, List<TimeBand>> filterTimeBands(List<IfmTask> taskList, String filter) {
+        Map<IfmTask, List<TimeBand>> filteredTimeBandsMap = [:]
 
-        ifmFiles.each { ifmFile ->
-            List<TimeBand> timeBands = timeBandsMap.get(ifmFile)
-            filteredTimeBandsMap.put(ifmFile, filterByHashtag(timeBands, filter))
+        taskList.each { task ->
+            List<TimeBand> timeBands = timeBandsMap.get(task)
+            filteredTimeBandsMap.put(task, filterByHashtag(timeBands, filter))
         }
         return filteredTimeBandsMap
     }
@@ -82,13 +84,11 @@ class DataSetManager {
         line?.toLowerCase()?.contains(filter)
     }
 
-    private void initializeDataFromFiles() {
-        initBaseDir()
-        initIfmFileList()
-        ifmFileList.each { ifmFile ->
-            IdeaFlowModel model = new IdeaFlowReader().readModel(ifmFile)
+    private void initializeTaskData() {
+        ifmSource.allIfmTasks().each { task ->
+            IdeaFlowModel model = task.readIfm()
             Timeline timeline = new TimelineFactory().create(model)
-            timeBandsMap.put(ifmFile, extractTimeBands(timeline))
+            timeBandsMap.put(task, extractTimeBands(timeline))
         }
     }
 
@@ -99,21 +99,7 @@ class DataSetManager {
         return allTimeBands
     }
 
-    private void initIfmFileList() {
-        getBaseDir().eachFileRecurse(FileType.FILES) { file ->
-            if(file.name.endsWith('.ifm')) {
-                ifmFileList.add(file)
-            }
-        }
-    }
 
-    private void initBaseDir() {
-        File baseIdeaFlowDir = getBaseDir()
-        baseIdeaFlowDir.mkdirs()
-    }
 
-    private File getBaseDir() {
-        String userHome = System.getProperty("user.home")
-        new File("$userHome/.ifmfiles")
-    }
+
 }

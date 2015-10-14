@@ -17,7 +17,7 @@ package demo.core.chart.builder
 
 import demo.api.FrictionChart
 import demo.core.chart.ChartDataSet
-import demo.core.timeline.TimeBand
+import demo.core.ifm.ifmsource.IfmTask
 
 interface IdeaFlowChartBuilder {
 
@@ -25,7 +25,7 @@ interface IdeaFlowChartBuilder {
 
     void configure(ChartDataSet chartDataSet)
 
-    void fillChart(File ifmFile)
+    void fillChart(IfmTask ifmTask)
 
     FrictionChart build()
 

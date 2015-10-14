@@ -16,7 +16,7 @@
 package demo.core
 
 
-import demo.core.dsl.IdeaFlowReader
+import demo.core.ifm.dsl.IdeaFlowReader
 import demo.core.model.EditorActivity
 import demo.core.model.IdeaFlowModel
 import demo.core.model.StateChange

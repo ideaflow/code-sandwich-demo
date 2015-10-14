@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package demo.core.dsl
+package demo.core.ifm.dsl
 
 import demo.core.model.BandEnd
 import demo.core.model.BandStart
@@ -53,9 +53,17 @@ class IdeaFlowReader {
 		readModel(modelFile, modelFile.text)
 	}
 
+	IdeaFlowModel readModel(InputStream stream) {
+		IdeaFlowModelLoader loader = new IdeaFlowModelLoader(null)
+		readModelContent(loader, stream.text)
+	}
+
 	IdeaFlowModel readModel(File modelFile, String dslContents) {
 		IdeaFlowModelLoader loader = new IdeaFlowModelLoader(modelFile)
+		return readModelContent(loader, dslContents)
+	}
 
+	private IdeaFlowModel readModelContent(IdeaFlowModelLoader loader, String dslContents) {
 		for (List<String> dslContentChunk : dslContents.readLines().collate(chunkSize)) {
 			String partialDslContent = dslContentChunk.join(LINE_SEPARATOR)
 			readPartialModel(loader, partialDslContent)

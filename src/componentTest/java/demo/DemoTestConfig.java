@@ -15,7 +15,10 @@
  */
 package demo;
 
+import demo.client.ChartClient;
 import demo.client.EventClient;
+import demo.core.ifm.ifmsource.IfmSource;
+import demo.filesource.PackageIfmSource;
 import groovyx.net.http.RESTClient;
 import java.net.URISyntaxException;
 
@@ -40,6 +43,11 @@ public class DemoTestConfig {
 	}
 
 	@Bean
+	public ChartClient chartClient() {
+		return new ChartClient(hostUri);
+	}
+
+	@Bean
 	@Primary
 	public RESTClient restClient() throws URISyntaxException {
 		RESTClient client = new RESTClient(hostUri);
@@ -56,5 +64,8 @@ public class DemoTestConfig {
 	public IfmDataGenerator ifmDataGenerator() {
 		return new IfmDataGenerator();
 	}
+
+	@Bean
+	public IfmSource ifmSource() { return new PackageIfmSource(); }
 
 }
