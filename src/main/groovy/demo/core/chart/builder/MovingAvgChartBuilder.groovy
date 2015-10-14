@@ -1,11 +1,11 @@
-package demo.core.chart
+package demo.core.chart.builder
 
 import demo.api.FrictionChart
 import demo.core.chart.bucket.MovingAverageBucket
 import demo.core.model.BandType
 import demo.core.timeline.TimeBand
 
-class MovingAvgChart implements IdeaFlowChart {
+class MovingAvgChartBuilder implements IdeaFlowChartBuilder {
 
     List<MovingAverageBucket> buckets
 
@@ -29,7 +29,7 @@ class MovingAvgChart implements IdeaFlowChart {
         }
     }
 
-    FrictionChart generate() {
+    FrictionChart build() {
         FrictionChart chart = new FrictionChart()
         chart.title = "Average Friction By Type (Minutes)"
 

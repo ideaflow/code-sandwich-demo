@@ -1,19 +1,19 @@
-package demo.core.chart
+package demo.core.chart.builder
 
 import demo.api.FrictionChart
 import demo.core.chart.bucket.AggregatorBucket
 import demo.core.model.BandType
 import demo.core.timeline.TimeBand
 
-class FrequencyChart implements IdeaFlowChart {
+class FrequencyChartBuilder implements IdeaFlowChartBuilder {
 
     List<AggregatorBucket> buckets
 
     void configure() {
-        buckets = [new AggregatorBucket("[0-5m]", { key, value -> value > 0 && value <= 5}),
-                   new AggregatorBucket("[5-10m]", { key, value -> value > 5 && value <= 10}),
-                   new AggregatorBucket("[10-30m]", { key, value -> value > 10 && value <= 30}),
-                   new AggregatorBucket("[30-200m]", { key, value -> value > 30 && value <= 200}),
+        buckets = [new AggregatorBucket("[0-5]", { key, value -> value > 0 && value <= 5}),
+                   new AggregatorBucket("[5-10]", { key, value -> value > 5 && value <= 10}),
+                   new AggregatorBucket("[10-30]", { key, value -> value > 10 && value <= 30}),
+                   new AggregatorBucket("[30-200]", { key, value -> value > 30 && value <= 200}),
                    new AggregatorBucket("[200m+]", { key, value -> value >= 200})]
     }
 
@@ -29,7 +29,7 @@ class FrequencyChart implements IdeaFlowChart {
         }
     }
 
-    FrictionChart generate() {
+    FrictionChart build() {
         FrictionChart chart = new FrictionChart()
         chart.title = "Friction Frequency By Friction Type"
 

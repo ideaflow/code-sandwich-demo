@@ -1,8 +1,9 @@
 package demo.core.chart
 
 import groovy.io.FileType
+import org.springframework.stereotype.Component
 
-
+@Component
 class IfmFileManager {
 
     List<File> fetchAllIfmFiles() {

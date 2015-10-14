@@ -18,8 +18,10 @@ package demo.resources;
 import demo.api.FrictionChart;
 import demo.api.ResourcePaths;
 import demo.core.chart.ChartGenerator;
-import demo.core.chart.FrequencyChart;
-import demo.core.chart.MovingAvgChart;
+import demo.core.chart.builder.FrequencyChartBuilder;
+import demo.core.chart.builder.IdeaFlowChartBuilder;
+import demo.core.chart.builder.MovingAvgChartBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -27,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -34,13 +37,17 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class ChartResource {
 
-	@GET
-	public List<FrictionChart> getChart(@PathParam("chartName") String chartName) {
-		ChartGenerator generator = new ChartGenerator();
-		generator.configure(new FrequencyChart());
-		generator.configure(new MovingAvgChart());
+	@Autowired
+	ChartGenerator chartGenerator;
 
-        return generator.generateCharts();
+	@GET
+	public List<FrictionChart> getAllCharts(@PathParam("chartName") String chartName) {
+
+		List<IdeaFlowChartBuilder> builders = new ArrayList<>();
+		builders.add( chartGenerator.configure(new FrequencyChartBuilder()));
+		builders.add(chartGenerator.configure(new MovingAvgChartBuilder()));
+
+        return chartGenerator.generateCharts(builders);
 	}
 
 }
