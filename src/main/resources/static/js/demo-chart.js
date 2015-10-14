@@ -13,10 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 function renderCharts() {
+    renderFilteredCharts("john", null)
+}
+
+function renderDefaultCharts() {
     $.ajax({
         type: 'GET',
-        url: '/chart/all', //change this to a filter parameter
+        url: '/chart',
+        success: drawAllCharts,
+        error: handleError
+    });
+}
+
+function renderFilteredCharts(author, hashtag) {
+    var url = '/chart';
+    if (author || hashtag) url += '?';
+    if (author) url += 'author=' +author;
+
+    if (author && hashtag) url += '&';
+    if (hashtag) url += 'hashtag=' +hashtag;
+
+    $.ajax({
+        type: 'GET',
+        url: url,
         success: drawAllCharts,
         error: handleError
     });

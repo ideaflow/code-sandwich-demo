@@ -17,7 +17,9 @@ package demo.resources;
 
 import demo.api.FrictionChart;
 import demo.api.ResourcePaths;
+import demo.core.chart.ChartDataSet;
 import demo.core.chart.ChartGenerator;
+import demo.core.chart.DataSetManager;
 import demo.core.chart.builder.FrequencyChartBuilder;
 import demo.core.chart.builder.IdeaFlowChartBuilder;
 import demo.core.chart.builder.MovingAvgChartBuilder;
@@ -26,26 +28,41 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Path(ResourcePaths.CHART_PATH + "/{chartName}")
+@Path(ResourcePaths.CHART_PATH )
 @Produces(MediaType.APPLICATION_JSON)
 public class ChartResource {
 
 	@Autowired
 	ChartGenerator chartGenerator;
 
+	@Autowired
+	DataSetManager dataSetManager;
+
 	@GET
-	public List<FrictionChart> getAllCharts(@PathParam("chartName") String chartName) {
+	public List<FrictionChart> getFilteredCharts(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
+
+		System.out.println("author = "+author);
+		System.out.println("hashtag = "+hashtag);
+
+		ChartDataSet filteredDataSet = dataSetManager.defaultDataSet();
+
+		if (author != null) {
+			filteredDataSet = dataSetManager.filterByIfmFolder(filteredDataSet, author);
+		}
+		if (hashtag != null) {
+			filteredDataSet = dataSetManager.filterBandsByHashtag(filteredDataSet, hashtag);
+		}
 
 		List<IdeaFlowChartBuilder> builders = new ArrayList<>();
-		builders.add( chartGenerator.configure(new FrequencyChartBuilder()));
-		builders.add(chartGenerator.configure(new MovingAvgChartBuilder()));
+		builders.add( chartGenerator.configure(filteredDataSet, new FrequencyChartBuilder()));
+		builders.add(chartGenerator.configure(filteredDataSet, new MovingAvgChartBuilder()));
 
         return chartGenerator.generateCharts(builders);
 	}

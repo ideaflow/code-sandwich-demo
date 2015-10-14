@@ -1,6 +1,7 @@
 package demo.core.chart.builder
 
 import demo.api.FrictionChart
+import demo.core.chart.ChartDataSet
 import demo.core.chart.bucket.MovingAverageBucket
 import demo.core.model.BandType
 import demo.core.timeline.TimeBand
@@ -8,8 +9,10 @@ import demo.core.timeline.TimeBand
 class MovingAvgChartBuilder implements IdeaFlowChartBuilder {
 
     List<MovingAverageBucket> buckets
+    ChartDataSet chartDataSet
 
-    void configure() {
+    void configure(ChartDataSet chartDataSet) {
+        this.chartDataSet = chartDataSet
         buckets = [new MovingAverageBucket(BandType.conflict.name(), 4),
                    new MovingAverageBucket(BandType.learning.name(), 4),
                    new MovingAverageBucket(BandType.rework.name(), 4),
@@ -17,7 +20,8 @@ class MovingAvgChartBuilder implements IdeaFlowChartBuilder {
     }
 
 
-    void fillChart(List<TimeBand> bands) {
+    void fillChart(File ifmFile) {
+        List<TimeBand> bands = chartDataSet.timeBandsMap.get(ifmFile);
         bands.each { TimeBand band ->
             fillDataBuckets(band.bandType.name(), ((double)band.duration.duration)/60)
         }

@@ -1,13 +1,16 @@
 package demo.core.chart.builder
 
 import demo.api.FrictionChart
+import demo.core.chart.ChartDataSet
 import demo.core.timeline.TimeBand
 
 interface IdeaFlowChartBuilder {
 
-    void configure()
+    ChartDataSet getChartDataSet()
 
-    void fillChart(List<TimeBand> bands)
+    void configure(ChartDataSet chartDataSet)
+
+    void fillChart(File ifmFile)
 
     FrictionChart build()
 
