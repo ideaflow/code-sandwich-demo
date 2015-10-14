@@ -12,21 +12,20 @@ class ChartResourceSpec extends Specification {
     @Autowired
     private ChartClient chartClient
 
-    def "chart methods should not explode"() {
+    def "should generate frequency chart that counts timebands"() {
         when:
-        chartClient.getFilteredCharts("author", "hashtag");
+        FrictionChart chart = chartClient.getFrequencyChart("two_each", null);
 
         then:
-        notThrown(Throwable)
+        chart.conflictSeries.get(0) == 2.0d
     }
 
-    def "filters should function via query params"() {
+    def "should generate series chart with one point per timeband"() {
         when:
-        List<FrictionChart> charts = chartClient.getFilteredCharts("two_each", null)
+        FrictionChart chart = chartClient.getSeriesChart("two_each", null)
+
         then:
-        charts.size() == 2
-        FrictionChart frequencyChart = charts.get(0)
-        frequencyChart.getConflictSeries().get(0) == 2.0d
+        chart.getConflictSeries().size() == 2
     }
 
 }

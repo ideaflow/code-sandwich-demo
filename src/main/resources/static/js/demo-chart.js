@@ -24,55 +24,73 @@ function renderCharts() {
 }
 
 function renderDefaultCharts() {
-    animate = true;
+    renderFilteredCharts(null, null);
+}
+
+function renderFilteredCharts(author, hashtag) {
+    var baseUrl = '/chart';
+    var queryParams =  toQueryParams(author, hashtag);
+    var title = refreshTitle(author, hashtag);
+    var url =
     $.ajax({
         type: 'GET',
-        url: '/chart',
-        success: drawAllCharts,
+        url: baseUrl + "/frequency" + queryParams,
+        success: drawFrequencyCharts,
+        error: handleError
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/series" + queryParams,
+        success: drawSeriesCharts,
         error: handleError
     });
 }
 
-function renderFilteredCharts(author, hashtag) {
-    animate = false;
-    var url = '/chart';
-    var title = "All Data (no filters)";
+function drawFrequencyCharts(chartData) {
+    drawBarChart('frequencyConflict', chartData.conflictSeriesLabel, chartData.ticks, chartData.conflictSeries, conflict_color);
+    drawBarChart('frequencyLearning', chartData.learningSeriesLabel, chartData.ticks, chartData.learningSeries, learning_color);
+    drawBarChart('frequencyRework', chartData.reworkSeriesLabel, chartData.ticks, chartData.reworkSeries, rework_color);
+}
 
-    if (author || hashtag) url += '?';
+function drawSeriesCharts(chartData) {
+    drawLineChart('seriesConflict', chartData.conflictSeriesLabel, chartData.conflictSeries, conflict_color);
+    drawLineChart('seriesLearning', chartData.learningSeriesLabel, chartData.learningSeries, learning_color);
+    drawLineChart('seriesRework', chartData.reworkSeriesLabel, chartData.reworkSeries, rework_color);
+}
+
+
+function toQueryParams(author, hashtag) {
+    var queryParams = "";
+    if (author || hashtag) queryParams += '?';
     if (author) {
-        url += 'author=' +author.toLowerCase();
+        queryParams += 'author=' +author.toLowerCase();
+    }
+
+    if (author && hashtag) queryParams += '&';
+    if (hashtag) {
+        queryParams += 'hashtag=' +hashtag.toLowerCase();
+    }
+
+    return queryParams
+}
+
+function refreshTitle(author, hashtag) {
+    var title = "";
+    if (!author && !hashtag) {
+        title = "All Data (no filters)"
+    }
+    if (author) {
         title = "Author: "+author;
     }
-
-    if (author && hashtag) url += '&';
     if (hashtag) {
-        url += 'hashtag=' +hashtag.toLowerCase();
         title = "Filtered By: #"+hashtag;
     }
-
     $( "#dashboardTitle" ).html("<h1>"+title+"</h1>");
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: drawAllCharts,
-        error: handleError
-    });
 }
 
 function handleError(e) {
     alert(e.status + " : " +e.statusText)
-}
-
-
-function drawAllCharts(charts) {
-    drawBarChart('frequencyConflict', charts[0].conflictSeriesLabel, charts[0].ticks, charts[0].conflictSeries, conflict_color);
-    drawBarChart('frequencyLearning', charts[0].learningSeriesLabel, charts[0].ticks, charts[0].learningSeries, learning_color);
-    drawBarChart('frequencyRework', charts[0].reworkSeriesLabel, charts[0].ticks, charts[0].reworkSeries, rework_color);
-
-    drawLineChart('durationConflict', charts[1].conflictSeriesLabel, charts[1].conflictSeries, conflict_color);
-    drawLineChart('durationLearning', charts[1].learningSeriesLabel, charts[1].learningSeries, learning_color);
-    drawLineChart('durationRework', charts[1].reworkSeriesLabel, charts[1].reworkSeries, rework_color);
 }
 
 
@@ -82,7 +100,7 @@ function drawBarChart(chartDiv, title, ticks, series, color) {
 
     var plot1 = $.jqplot(chartDiv, [series], {
         title: title,
-        animate:animate,
+        animate:false,
         seriesColors:[color],
         seriesDefaults:{
             renderer:$.jqplot.BarRenderer,
@@ -105,7 +123,7 @@ function drawLineChart(chartDiv, title, data, color) {
 
     var plot1 = $.jqplot (chartDiv, [data], {
         title: title,
-        animate: animate,
+        animate: true,
         seriesDefaults: {
                     rendererOptions: {
                         smooth: true

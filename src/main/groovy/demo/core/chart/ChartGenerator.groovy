@@ -20,10 +20,12 @@ import demo.core.chart.builder.IdeaFlowChartBuilder
 import demo.core.ifm.ifmsource.IfmTask
 import org.springframework.stereotype.Component
 
+import javax.validation.constraints.NotNull
+
 @Component
 class ChartGenerator {
 
-    FrictionChart generateChart(IdeaFlowChartBuilder chartBuilder) {
+    FrictionChart generateChart(@NotNull IdeaFlowChartBuilder chartBuilder) {
         generateCharts([chartBuilder]).get(0)
     }
 

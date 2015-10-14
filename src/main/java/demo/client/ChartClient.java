@@ -37,16 +37,28 @@ public class ChartClient {
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
     }
 
-    public List<FrictionChart> getFilteredCharts(String author,String hashtag) {
+    public FrictionChart getFrequencyChart(String author,String hashtag) {
+        String path = resourceUri + ResourcePaths.FREQUENCY_PATH;
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resourceUri)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(path)
                 .queryParam("author", author)
                 .queryParam("hashtag", hashtag);
 
-        ResponseEntity<FrictionChart[]> responseEntity =
-                restTemplate.getForEntity(builder.toUriString(), FrictionChart[].class);
-
-        FrictionChart[] chartArray = responseEntity.getBody();
-        return Arrays.asList(chartArray);
+        ResponseEntity<FrictionChart> response = restTemplate.getForEntity(builder.toUriString(), FrictionChart.class);
+        return response.getBody();
     }
+
+
+    public FrictionChart getSeriesChart(String author, String hashtag) {
+        String path = resourceUri + ResourcePaths.SERIES_PATH;
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(path)
+                .queryParam("author", author)
+                .queryParam("hashtag", hashtag);
+
+        ResponseEntity<FrictionChart> response = restTemplate.getForEntity(builder.toUriString(), FrictionChart.class);
+        return response.getBody();
+    }
+
+
 }

@@ -21,7 +21,6 @@ import demo.core.chart.ChartDataSet;
 import demo.core.chart.ChartGenerator;
 import demo.core.chart.DataSetManager;
 import demo.core.chart.builder.FrequencyChartBuilder;
-import demo.core.chart.builder.IdeaFlowChartBuilder;
 import demo.core.chart.builder.MovingAvgChartBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,8 +30,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @Path(ResourcePaths.CHART_PATH )
@@ -46,10 +43,20 @@ public class ChartResource {
 	DataSetManager dataSetManager;
 
 	@GET
-	public List<FrictionChart> getFilteredCharts(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
+	@Path(ResourcePaths.FREQUENCY_PATH)
+	public FrictionChart getFrequencyChart(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
+		ChartDataSet filteredDataSet = createFilteredDataSet(author, hashtag);
+		return chartGenerator.generateChart(new FrequencyChartBuilder(filteredDataSet));
+	}
 
-		System.out.println("author = "+author);
-		System.out.println("hashtag = "+hashtag);
+	@GET
+	@Path(ResourcePaths.SERIES_PATH)
+	public FrictionChart getSeriesChart(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
+		ChartDataSet filteredDataSet = createFilteredDataSet(author, hashtag);
+		return chartGenerator.generateChart(new MovingAvgChartBuilder(filteredDataSet));
+	}
+
+	private ChartDataSet createFilteredDataSet(String author, String hashtag) {
 
 		ChartDataSet filteredDataSet = dataSetManager.defaultDataSet();
 
@@ -59,12 +66,8 @@ public class ChartResource {
 		if (hashtag != null) {
 			filteredDataSet = dataSetManager.filterTimeBandsByHashtag(filteredDataSet, hashtag);
 		}
-
-		List<IdeaFlowChartBuilder> builders = new ArrayList<>();
-		builders.add(new FrequencyChartBuilder(filteredDataSet));
-		builders.add(new MovingAvgChartBuilder(filteredDataSet));
-
-        return chartGenerator.generateCharts(builders);
+		return filteredDataSet;
 	}
+
 
 }

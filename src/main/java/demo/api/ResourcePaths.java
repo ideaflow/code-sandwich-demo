@@ -28,6 +28,8 @@ public class ResourcePaths {
     public static final String COMMIT_PATH = "/commit";
 
     public static final String CHART_PATH = "/chart";
+    public static final String FREQUENCY_PATH = "/frequency";
+    public static final String SERIES_PATH = "/series";
 
 
 }

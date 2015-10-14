@@ -39,8 +39,8 @@ class DataSetManager {
 
     ChartDataSet defaultDataSet() {
         ChartDataSet defaultDataSet = new ChartDataSet (
-                ifmTaskList: ifmSource.allIfmTasks(),
-                timeBandsMap: timeBandsMap)
+                ifmTaskList: [] + ifmSource.allIfmTasks(),
+                timeBandsMap: [:] + timeBandsMap)
         return defaultDataSet
     }
 
