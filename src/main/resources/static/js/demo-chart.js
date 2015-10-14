@@ -15,7 +15,7 @@
  */
 
 function renderCharts() {
-    renderFilteredCharts("john", null)
+    renderFilteredCharts(null, "experimentpain");
 }
 
 function renderDefaultCharts() {

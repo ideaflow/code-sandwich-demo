@@ -19,6 +19,7 @@ import demo.core.model.BandEnd
 import demo.core.model.BandStart
 import demo.core.model.Conflict
 import demo.core.model.EditorActivity
+import demo.core.model.IdeaFlowModel
 import demo.core.model.Idle
 import demo.core.model.ModelEntity
 import demo.core.model.Note
@@ -46,6 +47,13 @@ class IdeaFlowWriter {
 
 	void close() {
 		writer.close()
+	}
+
+	void writeModel(IdeaFlowModel model) {
+		writeInitialization(model.created)
+		model.entityList.each { entity ->
+			write(entity);
+		}
 	}
 
 	void writeInitialization(DateTime created) {
