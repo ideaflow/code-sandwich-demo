@@ -49,7 +49,7 @@ class MovingAvgChartBuilder implements IdeaFlowChartBuilder {
             task.startDate
         }
         sortedTasks.each { ifmTask ->
-            loadTimeBands(ifmTask.unfilteredTimeBands)
+            loadTimeBands(ifmTask.timeBands)
         }
     }
 

@@ -35,7 +35,7 @@ class DataSetManagerSpec extends Specification {
         then:
         IfmTask painTaggedTask = filteredDataSet.tasks[0]
         painTaggedTask.taskName == "ex_tagged_experimentpain.ifm"
-        painTaggedTask.unfilteredTimeBands.size() == 2
+        painTaggedTask.timeBands.size() == 2
     }
 
 

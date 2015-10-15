@@ -34,7 +34,7 @@ class IfmResourceTask implements IfmTask {
     }
 
     @Override
-    List<TimeBand> getUnfilteredTimeBands() {
+    List<TimeBand> getTimeBands() {
         return timeBands
     }
 

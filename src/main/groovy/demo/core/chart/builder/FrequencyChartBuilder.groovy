@@ -47,7 +47,7 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
 
     private void fillChart() {
         chartDataSet.tasks.each { ifmTask ->
-            loadTimeBands(ifmTask.getUnfilteredTimeBands())
+            loadTimeBands(ifmTask.getTimeBands())
         }
     }
 
@@ -60,7 +60,7 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
         chart.learningSeriesLabel = "Learning Frequency"
         chart.reworkSeriesLabel = "Rework Frequency"
 
-        buckets.each { bucket ->
+        buckets.each { RangeBucket bucket ->
             chart.conflictSeries.add( bucket.getGroupFrequency(BandType.conflict.name()))
             chart.learningSeries.add( bucket.getGroupFrequency(BandType.learning.name()))
             chart.reworkSeries.add( bucket.getGroupFrequency(BandType.rework.name()))

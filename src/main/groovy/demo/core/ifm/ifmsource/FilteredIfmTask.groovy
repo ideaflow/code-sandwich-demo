@@ -28,8 +28,8 @@ class FilteredIfmTask implements IfmTask {
     }
 
     @Override
-    List<TimeBand> getUnfilteredTimeBands() {
-        delegate.unfilteredTimeBands.findAll { TimeBand timeBand ->
+    List<TimeBand> getTimeBands() {
+        delegate.timeBands.findAll { TimeBand timeBand ->
             filter.matches(timeBand)
         }
     }

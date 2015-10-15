@@ -6,7 +6,7 @@ interface IfmTask {
 
     String getTaskName()
     Date getStartDate()
-    List<TimeBand> getUnfilteredTimeBands()
+    List<TimeBand> getTimeBands()
 
     boolean isByAuthor(String author)
 
