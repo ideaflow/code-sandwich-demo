@@ -20,14 +20,11 @@ import groovy.util.logging.Slf4j
 @Slf4j
 class RangeBucket extends DataBucket {
 
-
     int from
     int to
 
     Map<String, Integer> frequencyMap = [:]
     Map<String, Double> averageValueMap = [:]
-
-    String description
 
     RangeBucket(int from, int to) {
         this.from = from
@@ -84,7 +81,11 @@ class RangeBucket extends DataBucket {
     }
 
     String getDescription() {
-        description
+        if (to == Integer.MAX_VALUE) {
+            "[$from+]"
+        } else {
+            "[$from-$to]"
+        }
     }
 
     @Override

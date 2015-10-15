@@ -51,5 +51,17 @@ class RangeBucketSpec extends Specification {
         bucket.getGroupAverage("kiwi") == 5d
     }
 
+    def "bucket should be described with a range"() {
+        given:
+        bucket = new RangeBucket(20, 30)
+        expect:
+        bucket.description == "[20-30]"
+    }
 
+    def "upperbound bucket should be described with a range+"() {
+        given:
+        bucket = new RangeBucket(20, Integer.MAX_VALUE)
+        expect:
+        bucket.description == "[20+]"
+    }
 }
