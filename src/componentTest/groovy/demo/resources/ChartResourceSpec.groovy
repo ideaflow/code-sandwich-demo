@@ -20,12 +20,4 @@ class ChartResourceSpec extends Specification {
         chart.conflictSeries.get(0) == 2.0d
     }
 
-    def "should generate series chart with one point per timeband"() {
-        when:
-        FrictionChart chart = chartClient.getSeriesChart("two_each", null)
-
-        then:
-        chart.getConflictSeries().size() == 2
-    }
-
 }

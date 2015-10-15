@@ -9,7 +9,9 @@ class HomeDirFileSource implements IfmSource {
     private List<IfmTask> ifmTaskList
 
     HomeDirFileSource() {
-        init()
+        File baseIdeaFlowDir = getBaseDir()
+        baseIdeaFlowDir.mkdirs()
+        initIfmTaskList()
     }
 
     List<IfmTask> allIfmTasks() {
@@ -19,12 +21,6 @@ class HomeDirFileSource implements IfmSource {
     File getBaseDir() {
         String userHome = System.getProperty("user.home")
         new File("$userHome/.ifmfiles")
-    }
-
-    private void init() {
-        File baseIdeaFlowDir = getBaseDir()
-        baseIdeaFlowDir.mkdirs()
-        initIfmTaskList()
     }
 
     private void initIfmTaskList() {

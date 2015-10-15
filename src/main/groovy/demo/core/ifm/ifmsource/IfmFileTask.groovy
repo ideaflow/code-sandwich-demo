@@ -11,7 +11,6 @@ import groovy.transform.EqualsAndHashCode
 class IfmFileTask implements IfmTask {
 
     String taskName
-    Date startDate
 
     private String relativePath
     private File ifmFile
@@ -21,7 +20,6 @@ class IfmFileTask implements IfmTask {
     IfmFileTask (File baseDir, File ifmFile) {
         this.relativePath = ifmFile.absolutePath.substring(baseDir.absolutePath.length())
         this.taskName = ifmFile.name
-        this.startDate = new Date(ifmFile.lastModified())
         this.ifmFile = ifmFile
         initData()
     }
@@ -37,7 +35,4 @@ class IfmFileTask implements IfmTask {
         return timeBands
     }
 
-    boolean isByAuthor(String author) {
-        relativePath.contains(author)
-    }
 }

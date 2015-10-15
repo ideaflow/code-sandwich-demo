@@ -15,10 +15,7 @@
  */
 package demo.core.chart
 
-import demo.core.ifm.ifmsource.FilteredIfmTask
 import demo.core.ifm.ifmsource.IfmTask
-import demo.core.ifm.ifmsource.TimeBandFilter
-import demo.core.timeline.TimeBand
 
 class ChartDataSet {
 
@@ -30,36 +27,6 @@ class ChartDataSet {
 
     int size() {
         tasks.size()
-    }
-
-    ChartDataSet filterByAuthor(String author) {
-        List<IfmTask> filteredTasks = tasks.findAll { IfmTask task ->
-            task.isByAuthor(author)
-        }
-        new ChartDataSet(filteredTasks)
-    }
-
-    ChartDataSet filterByHashtag(String hashtag) {
-        HashtagTimeBandFilter filter = new HashtagTimeBandFilter(hashtag)
-        List<IfmTask> filteredTasks = tasks.collect { IfmTask task ->
-            new FilteredIfmTask(task, filter)
-        }
-        new ChartDataSet(filteredTasks)
-    }
-
-
-    private static class HashtagTimeBandFilter implements TimeBandFilter {
-
-        private String hashtag
-
-        HashtagTimeBandFilter(String hashtag) {
-            this.hashtag = hashtag
-        }
-
-        @Override
-        boolean matches(TimeBand timeBand) {
-            timeBand.comment?.toLowerCase()?.contains(hashtag)
-        }
     }
 
 }

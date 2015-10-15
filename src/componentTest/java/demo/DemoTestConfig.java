@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import test.support.IfmDataGenerator;
 
 import java.net.URISyntaxException;
 
@@ -56,11 +55,6 @@ public class DemoTestConfig {
 	@Bean
 	public RESTClient managementRestClient(@Value("${management.port}") String managementPort) throws URISyntaxException {
 		return new RESTClient(serverBaseUrl + ":" + managementPort);
-	}
-
-	@Bean
-	public IfmDataGenerator ifmDataGenerator() {
-		return new IfmDataGenerator();
 	}
 
 	@Bean

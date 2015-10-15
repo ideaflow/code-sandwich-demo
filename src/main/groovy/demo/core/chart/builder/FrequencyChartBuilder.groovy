@@ -21,7 +21,7 @@ import demo.core.chart.bucket.RangeBucket
 import demo.core.model.BandType
 import demo.core.timeline.TimeBand
 
-class FrequencyChartBuilder implements IdeaFlowChartBuilder {
+class FrequencyChartBuilder {
 
     List<RangeBucket> buckets
     ChartDataSet chartDataSet
@@ -55,10 +55,6 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
 
         FrictionChart chart = new FrictionChart()
         chart.title = "Friction Frequency By Friction Type"
-
-        chart.conflictSeriesLabel = "Conflict Frequency"
-        chart.learningSeriesLabel = "Learning Frequency"
-        chart.reworkSeriesLabel = "Rework Frequency"
 
         buckets.each { RangeBucket bucket ->
             chart.conflictSeries.add( bucket.getGroupFrequency(BandType.conflict.name()))

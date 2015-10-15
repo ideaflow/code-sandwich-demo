@@ -17,7 +17,7 @@ package demo.core.chart
 
 import demo.api.FrictionChart
 import demo.core.chart.builder.FrequencyChartBuilder
-import demo.core.chart.builder.MovingAvgChartBuilder
+
 import demo.core.ifm.ifmsource.IfmSource
 import demo.filesource.PackageIfmSource
 import spock.lang.Specification
@@ -33,11 +33,8 @@ class ChartGeneratorSpec extends Specification {
     }
 
     def "should generate frequency chart that counts bands"() {
-        given:
-        ChartDataSet filteredDataSet = defaultDataSet.filterByAuthor("two_each")
-
         when:
-        FrictionChart frequencyChart = new FrequencyChartBuilder(filteredDataSet).build()
+        FrictionChart frequencyChart = new FrequencyChartBuilder(defaultDataSet).build()
 
         then:
         frequencyChart.conflictSeries.get(0) == 2.0d
@@ -45,17 +42,5 @@ class ChartGeneratorSpec extends Specification {
         frequencyChart.reworkSeries.get(0) == 2.0d
     }
 
-    def "should generate series chart that creates data points per timeband"() {
-        given:
-        ChartDataSet filteredDataSet = defaultDataSet.filterByAuthor("two_each")
-
-        when:
-        FrictionChart movingAvgChart = new MovingAvgChartBuilder(filteredDataSet).build()
-
-        then:
-        movingAvgChart.conflictSeries.size() == 2
-        movingAvgChart.learningSeries.size() == 2
-        movingAvgChart.reworkSeries.size() == 2
-    }
 
 }

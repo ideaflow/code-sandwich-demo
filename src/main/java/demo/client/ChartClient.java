@@ -44,16 +44,5 @@ public class ChartClient {
     }
 
 
-    public FrictionChart getSeriesChart(String author, String hashtag) {
-        String path = resourceUri + ResourcePaths.SERIES_PATH;
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(path)
-                .queryParam("author", author)
-                .queryParam("hashtag", hashtag);
-
-        ResponseEntity<FrictionChart> response = restTemplate.getForEntity(builder.toUriString(), FrictionChart.class);
-        return response.getBody();
-    }
-
 
 }

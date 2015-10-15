@@ -32,44 +32,9 @@
 </head>
 <body>
 
-<div id="nav" style="width:200px;float:left">
-    <div style="text-align: center; padding-top: 50px"><h3>====== Filters ======</h3></div>
-<ul>
-    <li style="padding-bottom: 20px"><b>Authors:</b></li>
-    <li> <a href="#" onclick="renderFilteredCharts('Janelle', null);">Janelle</a></li>
-    <li> <a href="#" onclick="renderFilteredCharts('George', null);">George</a></li>
-    <li> <a href="#" onclick="renderFilteredCharts('Jenny', null);">Jenny</a></li>
-    <li> <a href="#" onclick="renderFilteredCharts('DrGonzo', null);">DrGonzo</a></li>
-</ul>
-
-<ul>
-    <li style="padding-bottom: 20px"><b>Pain Types:</b></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'ExperimentPain');">Experiment Pain</a></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'AlarmPain');">Alarm Pain</a></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'CollaborationPain');">Collaboration Pain</a></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'ModelingPain');">Modeling Pain</a></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'RequirementsPain');">Requirements Pain</a></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'DesignFitPain');">Design-Fit Pain</a></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'LackOfFamiliarityPain');">Lack of Familiarity Pain</a></li>
-    <li> <a href="#"  onclick="renderFilteredCharts(null, 'DisruptionPain');">Disruption Pain</a></li>
-</ul>
-</div>
-<div id="dashboardContainer" style="float:right">
-    <div id="dashboardTitle" style="text-align: center;"><h1>All Data (no filters)</h1></div>
-
-
-    <div id="frequencyConflict" style="height:200px;width:300px;display:inline-block;padding-bottom: 10px; "></div>
-    <div id="frequencyLearning" style="height:200px;width:300px;display:inline-block;padding-bottom: 10px; "></div>
-    <div id="frequencyRework" style="height:200px;width:300px;display:inline-block;padding-bottom: 10px; "></div>
-    <div style="padding-bottom: 30px"></div>
-
-    <div id="seriesConflict" style="height:200px;width:900px;padding-bottom: 10px;"></div>
-    <div id="seriesLearning" style="height:200px;width:900px;padding-bottom: 10px;"></div>
-    <div id="seriesRework" style="height:200px;width:900px;padding-bottom: 10px;"></div>
-
-</div>
+<div id="chartdiv" style="height:300px;width:600px;"></div>
 <script>
-    renderCharts();
+    renderChart();
 </script>
 
 </body>

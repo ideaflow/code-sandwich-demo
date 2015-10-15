@@ -17,17 +17,14 @@ package demo.resources;
 
 import demo.api.FrictionChart;
 import demo.api.ResourcePaths;
-import demo.core.chart.ChartDataSet;
 import demo.core.chart.ChartDataSetFactory;
 import demo.core.chart.builder.FrequencyChartBuilder;
-import demo.core.chart.builder.MovingAvgChartBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Component
@@ -40,30 +37,8 @@ public class ChartResource {
 
 	@GET
 	@Path(ResourcePaths.FREQUENCY_PATH)
-	public FrictionChart getFrequencyChart(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
-		ChartDataSet filteredDataSet = createFilteredDataSet(author, hashtag);
-		return new FrequencyChartBuilder(filteredDataSet).build();
+	public FrictionChart getFrequencyChart() {
+		return new FrequencyChartBuilder(chartDataSetFactory.defaultDataSet()).build();
 	}
-
-	@GET
-	@Path(ResourcePaths.SERIES_PATH)
-	public FrictionChart getSeriesChart(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
-		ChartDataSet filteredDataSet = createFilteredDataSet(author, hashtag);
-		return new MovingAvgChartBuilder(filteredDataSet).build();
-	}
-
-	private ChartDataSet createFilteredDataSet(String author, String hashtag) {
-
-		ChartDataSet chartDataSet = chartDataSetFactory.defaultDataSet();
-
-		if (author != null) {
-            chartDataSet = chartDataSet.filterByAuthor(author);
-		}
-		if (hashtag != null) {
-            chartDataSet = chartDataSet.filterByHashtag(hashtag);
-		}
-        return chartDataSet;
-	}
-
 
 }
