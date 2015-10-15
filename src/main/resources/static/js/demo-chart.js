@@ -153,7 +153,7 @@ function drawLineChart(chartDiv, title, data, color) {
         },
         axes: {
             xaxis: {
-                min: 0,
+                min: 1,
                 max:data.length,
                 tickOptions: {
                     showLabel: false,
