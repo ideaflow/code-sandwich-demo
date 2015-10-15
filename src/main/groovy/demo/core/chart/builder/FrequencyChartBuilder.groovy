@@ -46,8 +46,8 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
     }
 
     private void fillChart() {
-        chartDataSet.filteredTasks.each { ifmTask ->
-            loadTimeBands(chartDataSet.getFilteredBands(ifmTask))
+        chartDataSet.tasks.each { ifmTask ->
+            loadTimeBands(ifmTask.getUnfilteredTimeBands())
         }
     }
 

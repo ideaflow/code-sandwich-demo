@@ -16,12 +16,12 @@ class DataSetManagerSpec extends Specification {
         ChartDataSet dataSet = dataSetFactory.defaultDataSet()
 
         then:
-        dataSet.filteredTasks.size() > 0
+        dataSet.tasks.size() > 0
     }
 
     def "should filter tasks by author (temporarily by path name)"() {
         when:
-        ChartDataSet filteredDataSet = dataSetFactory.defaultDataSet().filterIfmTasksByAuthor("tagged")
+        ChartDataSet filteredDataSet = dataSetFactory.defaultDataSet().filterByAuthor("tagged")
 
         then:
         filteredDataSet.size() > 0
@@ -30,12 +30,12 @@ class DataSetManagerSpec extends Specification {
 
     def "should filter timebands by tag"() {
         when:
-        ChartDataSet filteredDataSet = dataSetFactory.defaultDataSet().filterTimeBandsByHashtag("experimentpain")
+        ChartDataSet filteredDataSet = dataSetFactory.defaultDataSet().filterByHashtag("experimentpain")
 
         then:
-        IfmTask painTaggedTask = filteredDataSet.filteredTasks[0]
+        IfmTask painTaggedTask = filteredDataSet.tasks[0]
         painTaggedTask.taskName == "ex_tagged_experimentpain.ifm"
-        filteredDataSet.getFilteredBands(painTaggedTask).size() == 2
+        painTaggedTask.unfilteredTimeBands.size() == 2
     }
 
 

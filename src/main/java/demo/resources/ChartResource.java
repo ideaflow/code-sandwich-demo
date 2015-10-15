@@ -57,12 +57,12 @@ public class ChartResource {
 		ChartDataSet chartDataSet = chartDataSetFactory.defaultDataSet();
 
 		if (author != null) {
-			chartDataSet.filterIfmTasksByAuthor(author);
+            chartDataSet = chartDataSet.filterByAuthor(author);
 		}
 		if (hashtag != null) {
-			chartDataSet.filterTimeBandsByHashtag(hashtag);
+            chartDataSet = chartDataSet.filterByHashtag(hashtag);
 		}
-		return chartDataSet;
+        return chartDataSet;
 	}
 
 

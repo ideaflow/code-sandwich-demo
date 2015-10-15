@@ -45,11 +45,11 @@ class MovingAvgChartBuilder implements IdeaFlowChartBuilder {
     }
 
     private void fillChart() {
-        List<IfmTask> sortedTasks = chartDataSet.filteredTasks.sort { task ->
+        List<IfmTask> sortedTasks = chartDataSet.tasks.sort { task ->
             task.startDate
         }
         sortedTasks.each { ifmTask ->
-            loadTimeBands(chartDataSet.getFilteredBands(ifmTask))
+            loadTimeBands(ifmTask.unfilteredTimeBands)
         }
     }
 

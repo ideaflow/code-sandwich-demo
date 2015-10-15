@@ -15,77 +15,51 @@
  */
 package demo.core.chart
 
+import demo.core.ifm.ifmsource.FilteredIfmTask
 import demo.core.ifm.ifmsource.IfmTask
+import demo.core.ifm.ifmsource.TimeBandFilter
 import demo.core.timeline.TimeBand
 
 class ChartDataSet {
 
-    private List<IfmTask> filteredTasks
-    private Map<IfmTask, List<TimeBand>> filteredTimeBands
+    List<IfmTask> tasks
 
-    ChartDataSet(List<IfmTask> ifmTaskList) {
-        filteredTasks = ifmTaskList
-        filteredTimeBands = createTimeBandsMap(ifmTaskList)
+    ChartDataSet(List<IfmTask> tasks) {
+        this.tasks = tasks
     }
 
     int size() {
-        filteredTasks.size()
+        tasks.size()
     }
 
-    List<IfmTask> getFilteredTasks() {
-        filteredTasks
-    }
-
-    List<TimeBand> getFilteredBands(IfmTask task) {
-        filteredTimeBands.get(task)
-    }
-
-    ChartDataSet filterIfmTasksByAuthor(String author) {
-        filteredTasks = filterTasks(author)
-        this
-    }
-
-    ChartDataSet filterTimeBandsByHashtag(String hashtag) {
-        filteredTimeBands = filterTimeBands(hashtag)
-        this
-    }
-
-    private List<IfmTask> filterTasks(String author) {
-        filteredTasks.findAll { task ->
+    ChartDataSet filterByAuthor(String author) {
+        List<IfmTask> filteredTasks = tasks.findAll { IfmTask task ->
             task.isByAuthor(author)
         }
+        new ChartDataSet(filteredTasks)
     }
 
-    private Map<IfmTask, List<TimeBand>> createTimeBandsMap(List<IfmTask> ifmTaskList) {
-        Map<IfmTask, List<TimeBand>> timeBandsMap = [:]
-        ifmTaskList.each { ifmTask ->
-            timeBandsMap.put(ifmTask, [] + ifmTask.getUnfilteredTimeBands())
+    ChartDataSet filterByHashtag(String hashtag) {
+        HashtagTimeBandFilter filter = new HashtagTimeBandFilter(hashtag)
+        List<IfmTask> filteredTasks = tasks.collect { IfmTask task ->
+            new FilteredIfmTask(task, filter)
         }
-        return timeBandsMap
+        new ChartDataSet(filteredTasks)
     }
 
 
-    private Map<IfmTask, List<TimeBand>> filterTimeBands(String hashtag) {
-        Map<IfmTask, List<TimeBand>> newTimebandsMap = [:]
+    private static class HashtagTimeBandFilter implements TimeBandFilter {
 
-        filteredTasks.each { task ->
-            List<TimeBand> timeBands = filteredTimeBands.get(task)
-            newTimebandsMap.put(task, filterByHashtag(timeBands, hashtag))
+        private String hashtag
+
+        HashtagTimeBandFilter(String hashtag) {
+            this.hashtag = hashtag
         }
-        return newTimebandsMap
-    }
 
-    private List<TimeBand> filterByHashtag(List<TimeBand> timeBands, String hashtag) {
-        List<TimeBand> filteredTimeBands = []
-        timeBands.each { timeBand ->
-            if (matchesHashtag(timeBand.comment, hashtag)) {
-                filteredTimeBands.add(timeBand)
-            }
+        @Override
+        boolean matches(TimeBand timeBand) {
+            timeBand.comment?.toLowerCase()?.contains(hashtag)
         }
-        return filteredTimeBands
     }
 
-    private boolean matchesHashtag(String line, String filter) {
-        line?.toLowerCase()?.contains(filter)
-    }
 }
