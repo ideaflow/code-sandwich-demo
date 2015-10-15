@@ -40,12 +40,14 @@ class ChartDataSet {
         filteredTimeBands.get(task)
     }
 
-    void filterIfmTasksByAuthor(String author) {
+    ChartDataSet filterIfmTasksByAuthor(String author) {
         filteredTasks = filterTasks(author)
+        this
     }
 
-    void filterTimeBandsByHashtag(String hashtag) {
+    ChartDataSet filterTimeBandsByHashtag(String hashtag) {
         filteredTimeBands = filterTimeBands(hashtag)
+        this
     }
 
     private List<IfmTask> filterTasks(String author) {

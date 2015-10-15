@@ -15,13 +15,13 @@
  */
 package demo.chart.bucket
 
-import demo.core.chart.bucket.AggregatorBucket
+import demo.core.chart.bucket.RangeBucket
 import spock.lang.Specification
 
 
 class RangeBucketSpec extends Specification {
 
-    AggregatorBucket bucket = new AggregatorBucket()
+    RangeBucket bucket = new RangeBucket(1, 100)
 
     def "sample size should match the number of samples added"() {
         when:

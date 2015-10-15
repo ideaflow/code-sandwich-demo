@@ -19,6 +19,7 @@ import demo.ComponentTest
 import demo.api.FrictionChart
 import demo.core.chart.builder.FrequencyChartBuilder
 import demo.core.chart.builder.MovingAvgChartBuilder
+import groovy.sql.DataSet
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
@@ -26,20 +27,19 @@ import spock.lang.Specification
 class ChartGeneratorSpec extends Specification {
 
     @Autowired
-    private ChartGenerator chartGenerator
+    private ChartDataSetFactory chartDataSetFactory
+    private ChartDataSet chartDataSet
 
-    @Autowired
-    private ChartDataSetFactory dataSetManager
-
+    def setup() {
+        chartDataSet = chartDataSetFactory.defaultDataSet()
+    }
 
     def "should generate frequency chart that counts bands"() {
         given:
-        ChartDataSet defaultDataSet = dataSetManager.defaultDataSet()
-        ChartDataSet oneEachDataSet = dataSetManager.filterIfmTasksByAuthor(defaultDataSet, "two_each")
-        FrequencyChartBuilder frequencyChartBuilder = new FrequencyChartBuilder(oneEachDataSet)
+        chartDataSet.filterIfmTasksByAuthor("two_each")
 
         when:
-        FrictionChart frequencyChart = chartGenerator.generateChart(frequencyChartBuilder)
+        FrictionChart frequencyChart = new FrequencyChartBuilder(chartDataSet).build()
 
         then:
         frequencyChart.conflictSeries.get(0) == 2.0d
@@ -49,12 +49,10 @@ class ChartGeneratorSpec extends Specification {
 
     def "should generate series chart that creates data points per timeband"() {
         given:
-        ChartDataSet defaultDataSet = dataSetManager.defaultDataSet()
-        ChartDataSet oneEachDataSet = dataSetManager.filterIfmTasksByAuthor(defaultDataSet, "two_each")
-        MovingAvgChartBuilder movingAvgChartBuilder = new MovingAvgChartBuilder(oneEachDataSet)
+        chartDataSet.filterIfmTasksByAuthor("two_each")
 
         when:
-        FrictionChart movingAvgChart = chartGenerator.generateChart(movingAvgChartBuilder)
+        FrictionChart movingAvgChart = new MovingAvgChartBuilder(chartDataSet).build()
 
         then:
         movingAvgChart.conflictSeries.size() == 2

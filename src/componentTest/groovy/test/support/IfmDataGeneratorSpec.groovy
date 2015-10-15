@@ -17,8 +17,10 @@ package test.support
 
 import demo.ComponentTest
 import org.springframework.beans.factory.annotation.Autowired
+import spock.lang.Ignore
 import spock.lang.Specification
 
+@Ignore
 @ComponentTest
 class IfmDataGeneratorSpec extends Specification {
 

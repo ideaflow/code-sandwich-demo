@@ -18,7 +18,7 @@ package demo.core.chart.bucket
 import groovy.util.logging.Slf4j
 
 @Slf4j
-class AggregatorBucket extends DataBucket {
+class RangeBucket extends DataBucket {
 
 
     int from
@@ -28,15 +28,15 @@ class AggregatorBucket extends DataBucket {
     Map<String, Double> averageValueMap = [:]
 
     String description
-    Closure groupValueMatcher
-    AggregatorBucket(String description, Closure groupValueMatcher) {
-        this.description = description
-        this.groupValueMatcher = groupValueMatcher
+
+    RangeBucket(int from, int to) {
+        this.from = from
+        this.to = to
     }
 
     @Override
     boolean matches(String groupKey, Double value) {
-        groupValueMatcher(groupKey, value)
+        value >= from && value < to
     }
 
     @Override

@@ -9,35 +9,33 @@ import spock.lang.Specification
 class DataSetManagerSpec extends Specification {
 
     @Autowired
-    private ChartDataSetFactory dataSetManager
+    private ChartDataSetFactory dataSetFactory
 
     def "should initialize tasks from package source"() {
         when:
-        ChartDataSet dataSet = dataSetManager.defaultDataSet()
+        ChartDataSet dataSet = dataSetFactory.defaultDataSet()
 
         then:
-        dataSet.ifmTaskList.size() > 0
+        dataSet.filteredTasks.size() > 0
     }
 
     def "should filter tasks by author (temporarily by path name)"() {
         when:
-        ChartDataSet filteredDataSet =
-            dataSetManager.filterIfmTasksByAuthor(dataSetManager.defaultDataSet(), "tagged")
+        ChartDataSet filteredDataSet = dataSetFactory.defaultDataSet().filterIfmTasksByAuthor("tagged")
 
         then:
         filteredDataSet.size() > 0
-        filteredDataSet.size() < dataSetManager.defaultDataSet().size()
+        filteredDataSet.size() < dataSetFactory.defaultDataSet().size()
     }
 
     def "should filter timebands by tag"() {
         when:
-        ChartDataSet filteredDataSet =
-                dataSetManager.filterTimeBandsByHashtag(dataSetManager.defaultDataSet(), "experimentpain")
+        ChartDataSet filteredDataSet = dataSetFactory.defaultDataSet().filterTimeBandsByHashtag("experimentpain")
 
         then:
-        IfmTask painTaggedTask = filteredDataSet.ifmTaskList[0]
+        IfmTask painTaggedTask = filteredDataSet.filteredTasks[0]
         painTaggedTask.taskName == "ex_tagged_experimentpain.ifm"
-        filteredDataSet.getTimeBands(painTaggedTask).size() == 1
+        filteredDataSet.getFilteredBands(painTaggedTask).size() == 2
     }
 
 
