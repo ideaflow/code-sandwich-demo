@@ -59,7 +59,7 @@ class FrequencyChartBuilder {
         buckets.each { RangeBucket bucket ->
             chart.conflictSeries.add( bucket.getGroupFrequency(BandType.conflict.name()))
             chart.learningSeries.add( bucket.getGroupFrequency(BandType.learning.name()))
-            chart.reworkSeries.add( bucket.getGroupFrequency(BandType.rework.name()))
+            chart.learningSeries.add( bucket.getGroupFrequency(BandType.rework.name()))
         }
 
         chart.ticks = buckets.collect { bucket ->

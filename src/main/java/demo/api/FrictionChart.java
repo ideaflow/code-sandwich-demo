@@ -35,4 +35,5 @@ public class FrictionChart {
         List<Double> conflictSeries = new ArrayList<>();
         List<Double> learningSeries = new ArrayList<>();
         List<Double> reworkSeries = new ArrayList<>();
+
 }

@@ -32,14 +32,10 @@ public class ChartClient {
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
     }
 
-    public FrictionChart getFrequencyChart(String author,String hashtag) {
+    public FrictionChart getFrequencyChart() {
         String path = resourceUri + ResourcePaths.FREQUENCY_PATH;
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(path)
-                .queryParam("author", author)
-                .queryParam("hashtag", hashtag);
-
-        ResponseEntity<FrictionChart> response = restTemplate.getForEntity(builder.toUriString(), FrictionChart.class);
+        ResponseEntity<FrictionChart> response = restTemplate.getForEntity(path, FrictionChart.class);
         return response.getBody();
     }
 

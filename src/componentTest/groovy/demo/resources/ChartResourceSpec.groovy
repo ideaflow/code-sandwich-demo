@@ -14,10 +14,10 @@ class ChartResourceSpec extends Specification {
 
     def "should generate frequency chart that counts timebands"() {
         when:
-        FrictionChart chart = chartClient.getFrequencyChart("two_each", null);
+        FrictionChart chart = chartClient.getFrequencyChart();
 
         then:
-        chart.conflictSeries.get(0) == 2.0d
+        chart.conflictSeries.get(0) == 9.0d
     }
 
 }
