@@ -29,7 +29,7 @@ class ChartGeneratorSpec extends Specification {
     private ChartGenerator chartGenerator
 
     @Autowired
-    private DataSetManager dataSetManager
+    private ChartDataSetFactory dataSetManager
 
 
     def "should generate frequency chart that counts bands"() {

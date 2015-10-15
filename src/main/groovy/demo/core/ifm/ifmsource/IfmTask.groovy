@@ -1,13 +1,14 @@
 package demo.core.ifm.ifmsource
 
-import demo.core.model.IdeaFlowModel
+import demo.core.timeline.TimeBand
 
 interface IfmTask {
 
     String getTaskName()
     Date getStartDate()
+    List<TimeBand> getUnfilteredTimeBands()
 
     boolean isByAuthor(String author)
 
-    IdeaFlowModel readIfm()
+
 }

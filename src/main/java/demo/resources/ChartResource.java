@@ -18,8 +18,7 @@ package demo.resources;
 import demo.api.FrictionChart;
 import demo.api.ResourcePaths;
 import demo.core.chart.ChartDataSet;
-import demo.core.chart.ChartGenerator;
-import demo.core.chart.DataSetManager;
+import demo.core.chart.ChartDataSetFactory;
 import demo.core.chart.builder.FrequencyChartBuilder;
 import demo.core.chart.builder.MovingAvgChartBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,36 +36,33 @@ import javax.ws.rs.core.MediaType;
 public class ChartResource {
 
 	@Autowired
-	ChartGenerator chartGenerator;
-
-	@Autowired
-	DataSetManager dataSetManager;
+	ChartDataSetFactory chartDataSetFactory;
 
 	@GET
 	@Path(ResourcePaths.FREQUENCY_PATH)
 	public FrictionChart getFrequencyChart(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
 		ChartDataSet filteredDataSet = createFilteredDataSet(author, hashtag);
-		return chartGenerator.generateChart(new FrequencyChartBuilder(filteredDataSet));
+		return new FrequencyChartBuilder(filteredDataSet).build();
 	}
 
 	@GET
 	@Path(ResourcePaths.SERIES_PATH)
 	public FrictionChart getSeriesChart(@QueryParam("author") String author, @QueryParam("hashtag") String hashtag) {
 		ChartDataSet filteredDataSet = createFilteredDataSet(author, hashtag);
-		return chartGenerator.generateChart(new MovingAvgChartBuilder(filteredDataSet));
+		return new MovingAvgChartBuilder(filteredDataSet).build();
 	}
 
 	private ChartDataSet createFilteredDataSet(String author, String hashtag) {
 
-		ChartDataSet filteredDataSet = dataSetManager.defaultDataSet();
+		ChartDataSet chartDataSet = chartDataSetFactory.defaultDataSet();
 
 		if (author != null) {
-			filteredDataSet = dataSetManager.filterIfmTasksByAuthor(filteredDataSet, author);
+			chartDataSet.filterIfmTasksByAuthor(author);
 		}
 		if (hashtag != null) {
-			filteredDataSet = dataSetManager.filterTimeBandsByHashtag(filteredDataSet, hashtag);
+			chartDataSet.filterTimeBandsByHashtag(hashtag);
 		}
-		return filteredDataSet;
+		return chartDataSet;
 	}
 
 

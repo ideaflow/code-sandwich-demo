@@ -15,34 +15,35 @@
  */
 package demo.core.chart
 
-import demo.api.FrictionChart
-import demo.core.chart.builder.IdeaFlowChartBuilder
+import demo.core.ifm.ifmsource.IfmSource
 import demo.core.ifm.ifmsource.IfmTask
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import javax.validation.constraints.NotNull
-
 @Component
-class ChartGenerator {
+class ChartDataSetFactory {
 
-    FrictionChart generateChart(@NotNull IdeaFlowChartBuilder chartBuilder) {
-        generateCharts([chartBuilder]).get(0)
+    private IfmSource ifmSource
+
+    @Autowired
+    ChartDataSetFactory(IfmSource ifmSource) {
+        this.ifmSource = ifmSource
     }
 
-    List<FrictionChart> generateCharts(List<IdeaFlowChartBuilder> chartBuilders) {
-        chartBuilders.each { builder ->
-            List<IfmTask> sortedTasks = builder.getChartDataSet().ifmTaskList.sort { task ->
-                task.startDate
-            }
-            sortedTasks.each { ifmTask ->
-                builder.fillChart(ifmTask)
-            }
-
-        }
-
-        chartBuilders.collect { chartBuilder ->
-            chartBuilder.build()
-        }
+    ChartDataSet defaultDataSet() {
+        return new ChartDataSet (createIfmTaskList())
     }
+
+    private List<IfmTask> createIfmTaskList() {
+        [] + ifmSource.allIfmTasks()
+    }
+
+
+
+
+
+
+
+
 
 }

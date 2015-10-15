@@ -16,7 +16,7 @@
 package test.support
 
 import demo.core.chart.ChartDataSet
-import demo.core.chart.DataSetManager
+import demo.core.chart.ChartDataSetFactory
 import demo.core.ifm.dsl.IdeaFlowReader
 import demo.core.ifm.dsl.IdeaFlowWriter
 import demo.core.model.BandType
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component
 class IfmDataGenerator {
 
     @Autowired
-    DataSetManager dataSetManager
+    ChartDataSetFactory dataSetManager
 
     void extrapolateDataSet(File destDir) {
 

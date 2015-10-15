@@ -9,7 +9,7 @@ import spock.lang.Specification
 class DataSetManagerSpec extends Specification {
 
     @Autowired
-    private DataSetManager dataSetManager
+    private ChartDataSetFactory dataSetManager
 
     def "should initialize tasks from package source"() {
         when:

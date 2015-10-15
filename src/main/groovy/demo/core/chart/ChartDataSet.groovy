@@ -20,14 +20,70 @@ import demo.core.timeline.TimeBand
 
 class ChartDataSet {
 
-    List<IfmTask> ifmTaskList = []
-    Map<IfmTask, List<TimeBand>> timeBandsMap = [:]
+    private List<IfmTask> filteredTasks
+    private Map<IfmTask, List<TimeBand>> filteredTimeBands
 
-    int size() {
-        ifmTaskList.size()
+    ChartDataSet(List<IfmTask> ifmTaskList) {
+        filteredTasks = ifmTaskList
+        filteredTimeBands = createTimeBandsMap(ifmTaskList)
     }
 
-    List<TimeBand> getTimeBands(IfmTask task) {
-        timeBandsMap.get(task)
+    int size() {
+        filteredTasks.size()
+    }
+
+    List<IfmTask> getFilteredTasks() {
+        filteredTasks
+    }
+
+    List<TimeBand> getFilteredBands(IfmTask task) {
+        filteredTimeBands.get(task)
+    }
+
+    void filterIfmTasksByAuthor(String author) {
+        filteredTasks = filterTasks(author)
+    }
+
+    void filterTimeBandsByHashtag(String hashtag) {
+        filteredTimeBands = filterTimeBands(hashtag)
+    }
+
+    private List<IfmTask> filterTasks(String author) {
+        filteredTasks.findAll { task ->
+            task.isByAuthor(author)
+        }
+    }
+
+    private Map<IfmTask, List<TimeBand>> createTimeBandsMap(List<IfmTask> ifmTaskList) {
+        Map<IfmTask, List<TimeBand>> timeBandsMap = [:]
+        ifmTaskList.each { ifmTask ->
+            timeBandsMap.put(ifmTask, [] + ifmTask.getUnfilteredTimeBands())
+        }
+        return timeBandsMap
+    }
+
+
+    private Map<IfmTask, List<TimeBand>> filterTimeBands(String hashtag) {
+        Map<IfmTask, List<TimeBand>> newTimebandsMap = [:]
+
+        filteredTasks.each { task ->
+            List<TimeBand> timeBands = filteredTimeBands.get(task)
+            newTimebandsMap.put(task, filterByHashtag(timeBands, hashtag))
+        }
+        return newTimebandsMap
+    }
+
+    private List<TimeBand> filterByHashtag(List<TimeBand> timeBands, String hashtag) {
+        List<TimeBand> filteredTimeBands = []
+        timeBands.each { timeBand ->
+            if (matchesHashtag(timeBand.comment, hashtag)) {
+                filteredTimeBands.add(timeBand)
+            }
+        }
+        return filteredTimeBands
+    }
+
+    private boolean matchesHashtag(String line, String filter) {
+        line?.toLowerCase()?.contains(filter)
     }
 }

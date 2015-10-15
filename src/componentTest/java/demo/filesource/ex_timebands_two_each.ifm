@@ -1,0 +1,46 @@
+
+initialize (dateFormat: "yyyy-MM-dd'T'HH:mm:ss", created: '2015-10-12T15:18:39', )
+stateChange (created: '2015-10-12T15:18:39', type: 'startIdeaFlowRecording', )
+editorActivity (created: '2015-10-12T15:18:39', name: '''ifm-analysis-chart.ifm''', duration: 3, modified: 'true', )
+editorActivity (created: '2015-10-12T15:18:47', name: '''DataRetriever.groovy''', duration: 19, modified: 'false', )
+
+bandStart (created: '2015-10-13T13:15:04', type: 'learning', comment: '''What am I going to do next?''', isLinkedToPreviousBand: 'false', )
+editorActivity (created: '2015-10-13T13:15:04', name: '''ChartDataLoader.groovy''', duration: 59, modified: 'true', )
+bandEnd (created: '2015-10-13T13:22:17', type: 'learning', )
+
+conflict (created: '2015-10-13T16:14:33', question: '''Why is UI throwing NPE?''', isNested: 'false', )
+editorActivity (created: '2015-10-13T16:14:33', name: '''ChartResource.java''', duration: 3, modified: 'false', )
+editorActivity (created: '2015-10-13T16:14:36', name: '''MovingAvgChart.groovy''', duration: 21, modified: 'false', )
+editorActivity (created: '2015-10-13T16:14:58', name: '''ChartGenerator.groovy''', duration: 28, modified: 'true', )
+resolution (created: '2015-10-13T16:16:59', answer: '''Didn\'t initialize list variables in DTOs''', )
+
+bandStart (created: '2015-10-13T17:01:45', type: 'rework', comment: '''How do I turn off the labels on the chart?''', isLinkedToPreviousBand: 'false', )
+editorActivity (created: '2015-10-13T17:01:47', name: '''[[deactivated]]''', duration: 44, modified: 'false', )
+editorActivity (created: '2015-10-13T17:02:31', name: '''demo-chart.js''', duration: 15, modified: 'true', )
+editorActivity (created: '2015-10-13T17:02:46', name: '''[[deactivated]]''', duration: 31, modified: 'false', )
+editorActivity (created: '2015-10-13T17:03:18', name: '''demo-chart.js''', duration: 4, modified: 'false', )
+bandEnd (created: '2015-10-13T17:03:22', type: 'rework', )
+
+editorActivity (created: '2015-10-13T17:03:22', name: '''[[deactivated]]''', duration: 3, modified: 'false', )
+editorActivity (created: '2015-10-13T17:03:26', name: '''demo-chart.js''', duration: 6, modified: 'false', )
+
+bandStart (created: '2015-10-13T18:15:04', type: 'learning', comment: '''What am I going to do next?''', isLinkedToPreviousBand: 'false', )
+editorActivity (created: '2015-10-13T18:15:04', name: '''ChartDataLoader.groovy''', duration: 59, modified: 'true', )
+bandEnd (created: '2015-10-13T18:22:17', type: 'learning', )
+
+conflict (created: '2015-10-13T19:14:33', question: '''Why is UI throwing NPE?''', isNested: 'false', )
+editorActivity (created: '2015-10-13T19:14:33', name: '''ChartResource.java''', duration: 3, modified: 'false', )
+editorActivity (created: '2015-10-13T19:14:36', name: '''MovingAvgChart.groovy''', duration: 21, modified: 'false', )
+editorActivity (created: '2015-10-13T19:14:58', name: '''ChartGenerator.groovy''', duration: 28, modified: 'true', )
+resolution (created: '2015-10-13T19:16:59', answer: '''Didn\'t initialize list variables in DTOs''', )
+
+bandStart (created: '2015-10-13T20:01:45', type: 'rework', comment: '''How do I turn off the labels on the chart?''', isLinkedToPreviousBand: 'false', )
+editorActivity (created: '2015-10-13T20:01:47', name: '''[[deactivated]]''', duration: 44, modified: 'false', )
+editorActivity (created: '2015-10-13T20:02:31', name: '''demo-chart.js''', duration: 15, modified: 'true', )
+editorActivity (created: '2015-10-13T20:02:46', name: '''[[deactivated]]''', duration: 31, modified: 'false', )
+editorActivity (created: '2015-10-13T20:03:18', name: '''demo-chart.js''', duration: 4, modified: 'false', )
+bandEnd (created: '2015-10-13T20:03:22', type: 'rework', )
+
+editorActivity (created: '2015-10-13T20:03:22', name: '''[[deactivated]]''', duration: 3, modified: 'false', )
+editorActivity (created: '2015-10-13T20:03:26', name: '''demo-chart.js''', duration: 6, modified: 'false', )
+

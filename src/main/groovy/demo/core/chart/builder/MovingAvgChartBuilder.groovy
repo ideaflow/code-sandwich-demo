@@ -39,21 +39,21 @@ class MovingAvgChartBuilder implements IdeaFlowChartBuilder {
         ]
     }
 
-
-    void fillChart(IfmTask ifmTask) {
-        List<TimeBand> bands = chartDataSet.getTimeBands(ifmTask);
-        bands.each { TimeBand band ->
-            fillDataBuckets(band.bandType.name(), ((double)band.duration.duration)/60)
-        }
-    }
-
-    private void fillDataBuckets(String groupKey, Double value) {
-        buckets.each { bucket ->
-            bucket.addSample(groupKey, value)
-        }
-    }
-
     FrictionChart build() {
+        fillChart()
+        return buildChart()
+    }
+
+    private void fillChart() {
+        List<IfmTask> sortedTasks = chartDataSet.filteredTasks.sort { task ->
+            task.startDate
+        }
+        sortedTasks.each { ifmTask ->
+            loadTimeBands(chartDataSet.getFilteredBands(ifmTask))
+        }
+    }
+
+    private FrictionChart buildChart() {
         FrictionChart chart = new FrictionChart()
         chart.title = "Average Friction By Type (Minutes)"
 
@@ -69,5 +69,21 @@ class MovingAvgChartBuilder implements IdeaFlowChartBuilder {
 
         return chart
     }
+
+
+
+    private void loadTimeBands(List<TimeBand> timeBands) {
+        timeBands.each { TimeBand band ->
+            fillDataBuckets(band.bandType.name(), ((double)band.duration.duration)/60)
+        }
+    }
+
+    private void fillDataBuckets(String groupKey, Double value) {
+        buckets.each { bucket ->
+            bucket.addSample(groupKey, value)
+        }
+    }
+
+
 
 }

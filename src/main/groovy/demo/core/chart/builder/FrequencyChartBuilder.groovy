@@ -40,20 +40,20 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
                    new AggregatorBucket("[200m+]", { key, value -> value >= 200})]
     }
 
-    void fillChart(IfmTask ifmTask) {
-        List<TimeBand> bands = chartDataSet.getTimeBands(ifmTask);
-        bands.each { TimeBand band ->
-            fillDataBuckets(band.bandType.name(), ((double)band.duration.duration)/60)
-        }
-    }
-
-    private void fillDataBuckets(String groupKey, Double value) {
-        buckets.each { bucket ->
-                bucket.addSample(groupKey, value)
-        }
-    }
-
     FrictionChart build() {
+        fillChart()
+        return buildChart()
+
+    }
+
+    private void fillChart() {
+        chartDataSet.filteredTasks.each { ifmTask ->
+            loadTimeBands(chartDataSet.getFilteredBands(ifmTask))
+        }
+    }
+
+    private FrictionChart buildChart() {
+
         FrictionChart chart = new FrictionChart()
         chart.title = "Friction Frequency By Friction Type"
 
@@ -70,8 +70,20 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
         chart.ticks = buckets.collect { bucket ->
             bucket.description
         }
-
         return chart
     }
+
+    private void loadTimeBands(List<TimeBand> timeBands) {
+        timeBands.each { TimeBand band ->
+            fillDataBuckets(band.bandType.name(), ((double)band.duration.duration)/60)
+        }
+    }
+
+    private void fillDataBuckets(String groupKey, Double value) {
+        buckets.each { bucket ->
+            bucket.addSample(groupKey, value)
+        }
+    }
+
 
 }
