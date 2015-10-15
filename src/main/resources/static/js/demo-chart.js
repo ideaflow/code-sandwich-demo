@@ -26,11 +26,13 @@ function renderChart() {
 
 
 function drawBarChart(chartData) {
-    console.log("Hopefully this isn't null! --->" + chartData);
+    //TODO Wire up the chart
+
     $.jqplot.config.enablePlugins = true;
+    var color = '#ff0078';
+
     var ticks = ['cat1', 'cat2', 'cat3', 'cat4', 'cat5'];
     var data = [[2, 14, 7, 10, 3]];
-    var color = '#ff0078';
 
     $.jqplot('chartdiv', data, {
         title: "My Chart",
