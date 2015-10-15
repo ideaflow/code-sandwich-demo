@@ -18,14 +18,9 @@ package demo.client;
 import demo.api.FrictionChart;
 import demo.api.ResourcePaths;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ChartClient {
     private String resourceUri;

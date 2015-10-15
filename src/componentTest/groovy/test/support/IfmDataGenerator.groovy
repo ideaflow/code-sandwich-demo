@@ -71,7 +71,7 @@ class IfmDataGenerator {
         list.get(new Random().nextInt(list.size()));
     }
 
-    private String annotateConflictRandomly(ConflictBand conflict) {
+    private void annotateConflictRandomly(ConflictBand conflict) {
         List<String> hashtags = ['#ExperimentPain', '#ExperimentPain','#ExperimentPain','#CollaborationPain', '#AlarmPain', '']
         List<String> secondaryHashtags = ['', '', '', '', '#LackOfFamiliarityPain', '#DisruptionPain']
 
@@ -83,7 +83,7 @@ class IfmDataGenerator {
         }
     }
 
-    private String annotateLearningRandomly(GenericBand learningBand) {
+    private void annotateLearningRandomly(GenericBand learningBand) {
         List<String> hashtags = ['#ModelingPain', '#ModelingPain','#ModelingPain','#DesignFitPain', '']
         List<String> secondaryHashtags = ['', '', '', '', '#LackOfFamiliarityPain', '#DisruptionPain']
 
@@ -95,7 +95,7 @@ class IfmDataGenerator {
         }
     }
 
-    private String annotateReworkRandomly(GenericBand reworkBand) {
+    private void annotateReworkRandomly(GenericBand reworkBand) {
         List<String> hashtags = ['#RequirementsPain', '#DesignFitPain', '', '', '']
 
         if (reworkBand.duration.duration > 15*60) {
