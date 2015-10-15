@@ -22,6 +22,12 @@ import org.reflections.Reflections
 
 class FixtureSupport {
 
+	static final int SECONDS = 10;
+	static final int SEVEN_MINUTES = 7*60;
+	static final int TWENTY_MINUTES = 20*60;
+	static final int ONE_HOUR = 60*60;
+	static final int THREE_HOURS = 180*60;
+
 	static final String FILE = "file"
 	static final String OTHER_FILE = "otherFile"
 	static final String FILE1 = "file1"

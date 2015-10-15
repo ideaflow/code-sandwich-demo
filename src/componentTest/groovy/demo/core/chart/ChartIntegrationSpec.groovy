@@ -22,7 +22,7 @@ import demo.core.ifm.ifmsource.IfmSource
 import demo.filesource.PackageIfmSource
 import spock.lang.Specification
 
-class ChartGeneratorSpec extends Specification {
+class ChartIntegrationSpec extends Specification {
 
     private ChartDataSet defaultDataSet
 
