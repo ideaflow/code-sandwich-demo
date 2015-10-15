@@ -35,8 +35,8 @@ class FrequencyChartBuilder implements IdeaFlowChartBuilder {
         buckets = [new RangeBucket(0, 5),
                    new RangeBucket(5, 10),
                    new RangeBucket(10, 30),
-                   new RangeBucket(30, 200),
-                   new RangeBucket(200, Integer.MAX_VALUE)]
+                   new RangeBucket(30, 120),
+                   new RangeBucket(120, Integer.MAX_VALUE)]
     }
 
     FrictionChart build() {
