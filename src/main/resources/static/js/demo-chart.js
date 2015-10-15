@@ -48,15 +48,35 @@ function renderFilteredCharts(author, hashtag) {
 }
 
 function drawFrequencyCharts(chartData) {
-    drawBarChart('frequencyConflict', chartData.conflictSeriesLabel, chartData.ticks, chartData.conflictSeries, conflict_color);
-    drawBarChart('frequencyLearning', chartData.learningSeriesLabel, chartData.ticks, chartData.learningSeries, learning_color);
-    drawBarChart('frequencyRework', chartData.reworkSeriesLabel, chartData.ticks, chartData.reworkSeries, rework_color);
+    var plot1 = drawBarChart('frequencyConflict', chartData.conflictSeriesLabel, chartData.ticks, chartData.conflictSeries, conflict_color);
+    var plot2 = drawBarChart('frequencyLearning', chartData.learningSeriesLabel, chartData.ticks, chartData.learningSeries, learning_color);
+    var plot3 = drawBarChart('frequencyRework', chartData.reworkSeriesLabel, chartData.ticks, chartData.reworkSeries, rework_color);
+    normalizeYAxis([plot1, plot2, plot3]);
 }
 
 function drawSeriesCharts(chartData) {
     drawLineChart('seriesConflict', chartData.conflictSeriesLabel, chartData.conflictSeries, conflict_color);
     drawLineChart('seriesLearning', chartData.learningSeriesLabel, chartData.learningSeries, learning_color);
     drawLineChart('seriesRework', chartData.reworkSeriesLabel, chartData.reworkSeries, rework_color);
+}
+
+function normalizeYAxis(plots) {
+    var max = 0;
+    var interval = 0;
+    var numTicks = 0;
+    for (var i = 0; i < plots.length; i++) {
+        if (plots[i].axes.yaxis.max > max) {
+            max = plots[i].axes.yaxis.max;
+            interval = plots[i].axes.yaxis.tickInterval;
+            numTicks = plots[i].axes.yaxis.numberTicks;
+        }
+    }
+    for (i = 0; i < plots.length; i++) {
+        plots[i].axes.yaxis.max = max;
+        plots[i].axes.yaxis.tickInterval = interval;
+        plots[i].axes.yaxis.numberTicks = numTicks;
+        plots[i].replot();
+    }
 }
 
 
@@ -98,7 +118,7 @@ function drawBarChart(chartDiv, title, ticks, series, color) {
     $( '#'+chartDiv).html('');
     $.jqplot.config.enablePlugins = true;
 
-    var plot1 = $.jqplot(chartDiv, [series], {
+    var plot = $.jqplot(chartDiv, [series], {
         title: title,
         animate:false,
         seriesColors:[color],
@@ -114,6 +134,7 @@ function drawBarChart(chartDiv, title, ticks, series, color) {
         },
         highlighter: { show: false }
     });
+    return plot;
 
 }
 
@@ -121,7 +142,7 @@ function drawLineChart(chartDiv, title, data, color) {
     var visible = resetDiv(chartDiv, data);
     if (!visible) return;
 
-    var plot1 = $.jqplot (chartDiv, [data], {
+    var plot = $.jqplot (chartDiv, [data], {
         title: title,
         animate: true,
         seriesDefaults: {
@@ -147,6 +168,7 @@ function drawLineChart(chartDiv, title, data, color) {
         series:[{showMarker:false}],
         seriesColors:[color]
     });
+    return plot;
 }
 
 function resetDiv(divName, data) {
