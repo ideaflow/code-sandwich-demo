@@ -15,21 +15,20 @@
  */
 package demo.core.chart
 
-import demo.ComponentTest
 import demo.api.FrictionChart
 import demo.core.chart.builder.FrequencyChartBuilder
 import demo.core.chart.builder.MovingAvgChartBuilder
-import org.springframework.beans.factory.annotation.Autowired
+import demo.core.ifm.ifmsource.IfmSource
+import demo.filesource.PackageIfmSource
 import spock.lang.Specification
 
-@ComponentTest
 class ChartGeneratorSpec extends Specification {
 
-    @Autowired
-    private ChartDataSetFactory chartDataSetFactory
     private ChartDataSet defaultDataSet
 
     def setup() {
+        IfmSource source = new PackageIfmSource(getClass())
+        ChartDataSetFactory chartDataSetFactory = new ChartDataSetFactory(source)
         defaultDataSet = chartDataSetFactory.defaultDataSet()
     }
 

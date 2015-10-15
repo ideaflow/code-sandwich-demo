@@ -1,26 +1,25 @@
 package demo.filesource
 
+import demo.core.ifm.ifmsource.IfmFileTask
 import demo.core.ifm.ifmsource.IfmSource
 import demo.core.ifm.ifmsource.IfmTask
-import org.springframework.stereotype.Component
 
-@Component
 class PackageIfmSource implements IfmSource {
 
     private List<IfmTask> ifmTaskList
 
-    PackageIfmSource() {
-        init()
+    PackageIfmSource(Class testClass) {
+        ifmTaskList = getIfmTaskList(testClass)
     }
 
-    void init() {
-        List<String> resourcePaths = [
-                "ex_tagged_experimentpain.ifm",
-                "ex_timebands_two_each.ifm"
-        ]
-
-        ifmTaskList = resourcePaths.collect() { resourcePath ->
-            new IfmResourceTask(resourcePath)
+    private List<IfmTask> getIfmTaskList(Class testClass) {
+        File baseDir = new File(testClass.getResource("/").path)
+        File testClassDir = new File(testClass.getResource(".").path)
+        List<File> ifmFiles = testClassDir.listFiles().findAll { File file ->
+            file.name.endsWith(".ifm")
+        }
+        ifmFiles.collect { File file ->
+            new IfmFileTask(baseDir, file)
         }
     }
 

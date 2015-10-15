@@ -17,6 +17,7 @@ package demo;
 
 import demo.client.ChartClient;
 import demo.client.EventClient;
+import demo.core.chart.ChartGeneratorSpec;
 import demo.core.ifm.ifmsource.IfmSource;
 import demo.filesource.PackageIfmSource;
 import groovyx.net.http.RESTClient;
@@ -66,6 +67,8 @@ public class DemoTestConfig {
 	}
 
 	@Bean
-	public IfmSource ifmSource() { return new PackageIfmSource(); }
+    public IfmSource ifmSource() {
+        return new PackageIfmSource(ChartGeneratorSpec.class);
+    }
 
 }
