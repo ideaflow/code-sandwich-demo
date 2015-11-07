@@ -57,9 +57,9 @@ class FrequencyChartBuilder {
         chart.title = "Friction Frequency By Friction Type"
 
         buckets.each { RangeBucket bucket ->
-            chart.conflictSeries.add( bucket.getGroupFrequency(BandType.conflict.name()))
-            chart.learningSeries.add( bucket.getGroupFrequency(BandType.learning.name()))
-            chart.learningSeries.add( bucket.getGroupFrequency(BandType.rework.name()))
+            chart.conflictSeries.add( (Double) bucket.getGroupFrequency(BandType.conflict.name()))
+            chart.learningSeries.add( (Double) bucket.getGroupFrequency(BandType.learning.name()))
+            chart.reworkSeries.add( (Double) bucket.getGroupFrequency(BandType.rework.name()))
         }
 
         chart.ticks = buckets.collect { bucket ->
