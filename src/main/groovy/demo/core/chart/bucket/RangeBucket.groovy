@@ -42,19 +42,19 @@ class RangeBucket extends DataBucket {
     }
 
     private void updateSampleFrequency(String key) {
-        Integer frequency = frequencyMap.get(key)
-        frequencyMap.put(key,  ++frequency)
+        frequencyMap.put(key,  ++getGroupFrequency(key))
     }
 
     private void initializeFrequencyToZero(String groupKey) {
         Integer frequency = frequencyMap.get(groupKey)
-        if (!frequency) {
+        if (frequency) {
             frequencyMap.put(groupKey, 0)
         }
     }
 
-    Double getGroupFrequency(String groupKey) {
-        frequencyMap.get(groupKey)
+    Integer getGroupFrequency(String groupKey) {
+        Integer frequency = frequencyMap.get(groupKey)
+        frequency ? frequency : 0
     }
 
     String getDescription() {

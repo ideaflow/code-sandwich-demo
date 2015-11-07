@@ -31,7 +31,7 @@ class RangeBucketSpec extends Specification {
         bucket.totalSamples == 2
     }
 
-    def "addSample should increment the group frequency"() {
+def "addSample should increment the group frequency"() {
         when:
         bucket.addSample("apples", 4)
 
