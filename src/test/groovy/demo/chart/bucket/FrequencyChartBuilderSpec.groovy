@@ -1,6 +1,7 @@
 package demo.chart.bucket
 
 import demo.api.FrictionChart
+import demo.core.chart.ChartDataSet
 import demo.core.chart.builder.FrequencyChartBuilder
 import demo.core.model.BandType
 import spock.lang.Specification
@@ -20,11 +21,12 @@ class FrequencyChartBuilderSpec extends Specification {
             dataSetBuilder.newTask("task2")
                             .addTimeBand(BandType.conflict, 10)
                             .addTimeBand(BandType.conflict, 10)
-            FrequencyChartBuilder chartBuilder = new FrequencyChartBuilder(dataSetBuilder.build())
+            ChartDataSet dataSet = dataSetBuilder.build()
+            FrequencyChartBuilder chartBuilder = new FrequencyChartBuilder(dataSet)
 
         when:
-            FrictionChart chart = chartBuilder.build()
 
+            FrictionChart chart = chartBuilder.build()
         then:
             chart.conflictSeries.size() == 5
             chart.conflictSeries.get(0) == 4.0d
@@ -39,7 +41,8 @@ class FrequencyChartBuilderSpec extends Specification {
                 .addTimeBand(BandType.conflict, TWENTY_MINUTES)
                 .addTimeBand(BandType.conflict, ONE_HOUR)
                 .addTimeBand(BandType.conflict, THREE_HOURS)
-        FrequencyChartBuilder chartBuilder = new FrequencyChartBuilder(dataSetBuilder.build())
+        ChartDataSet dataSet = dataSetBuilder.build()
+        FrequencyChartBuilder chartBuilder = new FrequencyChartBuilder(dataSet)
 
         when:
         FrictionChart chart = chartBuilder.build()
@@ -55,23 +58,25 @@ class FrequencyChartBuilderSpec extends Specification {
 
     //TODO Implement this last test for FrequencyChartBuilder...
 
-//    def "should SEPARATE band counts of different types"() {
-//        given:
-//        dataSetBuilder.newTask("task1")
-//                .addTimeBand(BandType.conflict, 10)
-//                .addTimeBand(BandType.learning, 10)
-//                .addTimeBand(BandType.learning, 10)
-//                .addTimeBand(BandType.rework, 10)
-//        FrequencyChartBuilder chartBuilder = new FrequencyChartBuilder(dataSetBuilder.build())
-//
-//        when:
-//        FrictionChart chart = chartBuilder.build()
-//
-//        then:
-//        chart.conflictSeries.size() == 5
-//        chart.conflictSeries.get(0) == 1.0d
-//        chart.learningSeries.get(0) == 2.0d
-//        chart.reworkSeries.get(0) == 1.0d
-//    }
+    def "should SEPARATE band counts of different types"() {
+        given:
+        dataSetBuilder.newTask("task1")
+                .addTimeBand(BandType.conflict, 10)
+                .addTimeBand(BandType.learning, 10)
+                .addTimeBand(BandType.learning, 10)
+                .addTimeBand(BandType.rework, 10)
+        ChartDataSet dataSet = dataSetBuilder.build()
+        FrequencyChartBuilder chartBuilder = new FrequencyChartBuilder(dataSet)
+
+        when:
+        FrictionChart chart = chartBuilder.build()
+
+        then:
+        chart.conflictSeries.size() == 5
+
+        chart.conflictSeries.get(0) == 1.0d
+        chart.learningSeries.get(0) == 2.0d
+        chart.reworkSeries.get(0) == 1.0d
+    }
 
 }
