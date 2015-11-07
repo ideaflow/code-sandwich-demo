@@ -21,7 +21,7 @@ import spock.lang.Specification
 
 class RangeBucketSpec extends Specification {
 
-    RangeBucket bucket = new RangeBucket(1, 100)
+    RangeBucket bucket = new RangeBucket(1, 10)
 
     def "sample size should match the number of samples added"() {
         when:
@@ -37,12 +37,14 @@ class RangeBucketSpec extends Specification {
 
         then:
         assert bucket.getGroupFrequency("apples") == 1
+        assert bucket.totalSamples == 1
 
         when:
-        bucket.addSample("apples", 5)
+        bucket.addSample("apples", 15)
 
         then:
         assert bucket.getGroupFrequency("apples") == 2
+        assert bucket.totalSamples == 2
     }
 
     def "bucket should be described with a range"() {
