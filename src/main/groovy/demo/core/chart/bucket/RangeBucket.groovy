@@ -24,7 +24,6 @@ class RangeBucket extends DataBucket {
     int to
 
     Map<String, Integer> frequencyMap = [:]
-    Map<String, Double> averageValueMap = [:]
 
     RangeBucket(int from, int to) {
         this.from = from
@@ -38,42 +37,20 @@ class RangeBucket extends DataBucket {
 
     @Override
     void addDataSample(String groupKey, Double value) {
-
         initializeFrequencyToZero(groupKey)
-        updateAverage(groupKey, value)
         updateSampleFrequency(groupKey)
     }
 
-    void updateSampleFrequency(String key) {
+    private void updateSampleFrequency(String key) {
         Integer frequency = frequencyMap.get(key)
         frequencyMap.put(key,  ++frequency)
     }
 
-    void initializeFrequencyToZero(String groupKey) {
+    private void initializeFrequencyToZero(String groupKey) {
         Integer frequency = frequencyMap.get(groupKey)
         if (!frequency) {
             frequencyMap.put(groupKey, 0)
         }
-    }
-
-
-    void updateAverage(String groupKey, Double value) {
-        Double groupAverage = averageValueMap.get(groupKey)
-
-        if (groupAverage) {
-            averageValueMap.put(groupKey, calculateAvg(groupKey, groupAverage, value))
-        } else {
-            averageValueMap.put(groupKey, value)
-        }
-    }
-
-    private Double calculateAvg(String groupKey, Double groupAverage, Double value) {
-        Integer groupFrequency = frequencyMap.get(groupKey);
-        (groupFrequency * groupAverage + value)/(groupFrequency + 1)
-    }
-
-    Double getGroupAverage(String groupKey) {
-        averageValueMap.get(groupKey)
     }
 
     Double getGroupFrequency(String groupKey) {

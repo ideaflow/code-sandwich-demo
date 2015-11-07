@@ -31,24 +31,18 @@ class RangeBucketSpec extends Specification {
         bucket.totalSamples == 2
     }
 
-    def "values should be AVERAGED for samples are in the SAME group"() {
+    def "addSample should increment the group frequency"() {
         when:
         bucket.addSample("apples", 4)
-        bucket.addSample("apples", 10)
 
         then:
-        bucket.getGroupAverage("apples") == 7.0d
-    }
+        assert bucket.getGroupFrequency("apples") == 1
 
-    def "values should be EXCLUDED from average if samples are in a DIFFERENT group"() {
         when:
-        bucket.addSample("apples", 4)
-        bucket.addSample("apples", 10)
-        bucket.addSample("kiwi", 5)
+        bucket.addSample("apples", 5)
 
         then:
-        bucket.getGroupAverage("apples") == 7.0d
-        bucket.getGroupAverage("kiwi") == 5d
+        assert bucket.getGroupFrequency("apples") == 2
     }
 
     def "bucket should be described with a range"() {
