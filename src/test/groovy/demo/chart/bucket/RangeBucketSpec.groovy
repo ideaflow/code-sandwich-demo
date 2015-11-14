@@ -23,30 +23,6 @@ class RangeBucketSpec extends Specification {
 
     RangeBucket bucket = new RangeBucket(1, 10)
 
-    def "sample size should match the number of samples added"() {
-        when:
-        bucket.addSample("apples", 4)
-        bucket.addSample("bananas", 8)
-        then:
-        bucket.totalSamples == 2
-    }
-
-def "addSample should increment the group frequency"() {
-        when:
-        bucket.addSample("apples", 4)
-
-        then:
-        assert bucket.getGroupFrequency("apples") == 1
-        assert bucket.totalSamples == 1
-
-        when:
-        bucket.addSample("apples", 15)
-
-        then:
-        assert bucket.getGroupFrequency("apples") == 2
-        assert bucket.totalSamples == 2
-    }
-
     def "bucket should be described with a range"() {
         given:
         bucket = new RangeBucket(20, 30)
@@ -59,5 +35,9 @@ def "addSample should increment the group frequency"() {
         bucket = new RangeBucket(20, Integer.MAX_VALUE)
         expect:
         bucket.description == "[20+]"
+    }
+
+    def "each sample should increment the group frequency"() {
+        //TODO fill in test
     }
 }
