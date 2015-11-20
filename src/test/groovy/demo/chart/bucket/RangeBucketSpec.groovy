@@ -38,6 +38,13 @@ class RangeBucketSpec extends Specification {
     }
 
     def "each sample should increment the group frequency"() {
-        //TODO fill in test
+        when:
+        bucket.addSample("apples", 5)
+        bucket.addSample("apples", 15)
+        bucket.addSample("bananas", 3)
+
+        then:
+        bucket.getGroupFrequency("apples") == 2
+        bucket.getGroupFrequency("bananas") == 1
     }
 }
