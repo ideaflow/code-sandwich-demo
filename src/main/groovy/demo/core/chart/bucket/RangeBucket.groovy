@@ -18,7 +18,7 @@ package demo.core.chart.bucket
 import groovy.util.logging.Slf4j
 
 @Slf4j
-class RangeBucket extends DataBucket {
+class RangeBucket {
 
     int from
     int to
@@ -30,14 +30,12 @@ class RangeBucket extends DataBucket {
         this.to = to
     }
 
-    @Override
-    boolean matches(String groupKey, Double value) {
-        value >= from && value < to
+    void addSample(String groupKey, Double value) {
+       //TODO add the sample to the frequency map
     }
 
-    @Override
-    void addDataSample(String groupKey, Double value) {
-        //TODO increment frequency for groupKey
+    boolean matchesRange(Double value) {
+        value >= from && value < to
     }
 
     Integer getGroupFrequency(String groupKey) {
@@ -52,13 +50,5 @@ class RangeBucket extends DataBucket {
         }
     }
 
-    @Override
-    int getTotalSamples() {
-        int total = 0
-        frequencyMap.values().each { partialTotal ->
-            total += partialTotal
-        }
-        return total
-    }
 
 }
